@@ -18,20 +18,26 @@ export function Footer({ dict, home = "" }: { dict: Dictionary; home?: string })
         </div>
         <div>
           <h2 className="text-small font-semibold text-ivory">{footer.contactTitle}</h2>
-          <ul className="mt-3 space-y-2 text-small text-stone">
-            {footer.contact.map((item) => (
-              <li key={item.label}>
-                <span className="sr-only">{item.label}: </span>
-                {item.href ? (
-                  <a href={item.href} className="link-quiet hover:text-ivory">
+          {footer.contact.length ? (
+            <ul className="mt-3 space-y-2 text-small text-stone">
+              {footer.contact.map((item) => (
+                <li key={item.label}>
+                  <span className="sr-only">{item.label}: </span>
+                  {item.href ? (
+                    <a href={item.href} className="link-quiet hover:text-ivory">
+                      <bdi>{item.value}</bdi>
+                    </a>
+                  ) : (
                     <bdi>{item.value}</bdi>
-                  </a>
-                ) : (
-                  <bdi>{item.value}</bdi>
-                )}
-              </li>
-            ))}
-          </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <a href={`${home}#contact`} className="link-quiet mt-3 inline-block text-small hover:text-ivory">
+              לטופס יצירת הקשר
+            </a>
+          )}
         </div>
         <nav aria-label={footer.navTitle}>
           <h2 className="text-small font-semibold text-ivory">{footer.navTitle}</h2>

@@ -76,15 +76,13 @@ export type Dictionary = {
     heading: string;
     lead: string;
     names: string[];
-    logosLabel: string;
-    logoPlaceholder: string;
     photo: Photo;
   };
   about: {
     heading: string;
     text: string;
     facts: { label: string; value: string }[];
-    /** The two disciplines behind the company, described by role only (no names). */
+    /** The two disciplines behind the company, described without personal identities. */
     partners: { role: string; areas: string[] }[];
   };
   contact: {

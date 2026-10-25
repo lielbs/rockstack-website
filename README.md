@@ -61,14 +61,12 @@ with the same names and run `node scripts/prepare-images.mjs`.
 Share image and icons: `node scripts/generate-brand-assets.mjs` (writes `public/og.png`,
 `src/app/apple-icon.png`, `src/app/favicon.ico`).
 
-## Placeholders to fill before launch
+## Launch checklist
 
-| Where | Placeholder |
+| Where | Required before launch |
 | --- | --- |
-| `src/content/site.ts` | email, phone, WhatsApp number, city |
-| `src/content/he.ts` → about | founded year `[שנת הקמה]`, years of experience `[מספר שנות ניסיון]` |
-| `src/content/he.ts` → about.partners | role descriptions only; names are intentionally left out |
-| `src/content/he.ts` → sectors | client logos `[לוגו לקוח]` (only with client permission) |
-| `src/app/accessibility/page.tsx` | coordinator (a role is enough, e.g. “צוות RockStack”), response time, testing details, known limitations, update date |
-| `src/app/privacy/page.tsx` | form/CRM provider, hosting, retention period, analytics, update date; **legal review required** |
-| Repository variable | `CONTACT_ENDPOINT` |
+| `src/content/site.ts` | Add the public business email, phone, WhatsApp number and service area that should appear on the site. Missing values stay hidden. |
+| Repository variable | Set `CUSTOM_DOMAIN` after the production domain is attached. |
+| Repository variable | Set `CONTACT_ENDPOINT` and verify a real submission reaches its destination. Without an endpoint, a configured business email is used as a mail fallback. |
+| `src/app/privacy/page.tsx` | Update the policy if analytics, advertising, a CRM or a form processor is added; obtain legal review before launch. |
+| Accessibility | Run keyboard, zoom, reduced-motion and screen-reader checks, then update the statement if limitations are found. |

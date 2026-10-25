@@ -21,20 +21,6 @@ export function Sectors({ dict }: { dict: Dictionary }) {
       <div data-reveal className="mt-20 lg:mt-28">
         <Photo photo={sectors.photo} sizes="100vw" frameRatio={3} className="-mx-[var(--margin)] lg:mx-0" />
       </div>
-
-      <div className="mt-14">
-        <h3 className="text-small font-semibold text-stone">{sectors.logosLabel}</h3>
-        <ul className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
-          {Array.from({ length: 6 }, (_, i) => (
-            <li
-              key={i}
-              className="grid aspect-[5/2] place-items-center rounded-[var(--radius-slab)] bg-basalt-raised text-small text-stone"
-            >
-              {sectors.logoPlaceholder}
-            </li>
-          ))}
-        </ul>
-      </div>
     </section>
   );
 }

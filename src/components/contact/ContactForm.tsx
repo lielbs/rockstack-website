@@ -86,7 +86,7 @@ export function ContactForm({ contact }: { contact: Dictionary["contact"] }) {
       source: "rockstack-website",
     };
 
-    if (!site.contactEndpoint) {
+    if (!site.contactEndpoint && site.email) {
       // No backend wired yet: hand the visitor a ready email instead of losing the request.
       const body = [
         `${form.name}: ${payload.name}`,
@@ -99,6 +99,11 @@ export function ContactForm({ contact }: { contact: Dictionary["contact"] }) {
       ].join("\n");
       setStatus("fallback");
       window.location.href = `mailto:${site.email ?? ""}?subject=${encodeURIComponent("פנייה מהאתר: RockStack")}&body=${encodeURIComponent(body)}`;
+      return;
+    }
+
+    if (!site.contactEndpoint) {
+      setStatus("error");
       return;
     }
 

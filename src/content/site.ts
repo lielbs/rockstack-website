@@ -1,7 +1,4 @@
-/**
- * Business details in one place. Every `null` renders as a visible placeholder
- * on the site until it is filled in (see README → Placeholders).
- */
+/** Business details in one place. Missing optional details stay hidden. */
 export const site = {
   /** Public origin without trailing slash, used for canonical URLs, sitemap and OG. */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://lielbs.github.io/rockstack-website",
@@ -15,11 +12,4 @@ export const site = {
    * Set NEXT_PUBLIC_CONTACT_ENDPOINT at build time. Empty → the form falls back to email.
    */
   contactEndpoint: process.env.NEXT_PUBLIC_CONTACT_ENDPOINT ?? "",
-};
-
-export const placeholders = {
-  email: "[אימייל]",
-  phone: "[טלפון]",
-  whatsapp: "[מספר וואטסאפ]",
-  city: "[עיר]",
 };

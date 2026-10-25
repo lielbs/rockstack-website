@@ -1,13 +1,14 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
 import { Words } from "@/components/ui/Words";
-import { placeholders, site } from "@/content/site";
+import { site } from "@/content/site";
 import { ContactForm } from "@/components/contact/ContactForm";
 
 export function Contact({ dict }: { dict: Dictionary }) {
   const { contact } = dict;
   const whatsappHref = site.whatsapp ? `https://wa.me/${site.whatsapp}` : undefined;
   const emailHref = site.email ? `mailto:${site.email}` : undefined;
+  const hasDirectContact = Boolean(whatsappHref || emailHref);
 
   return (
     <section id="contact" aria-labelledby="contact-title" className="on-dark grain frame section-y bg-night text-ivory">
@@ -22,11 +23,17 @@ export function Contact({ dict }: { dict: Dictionary }) {
         <ContactForm contact={contact} />
       </div>
 
-      <div className="mt-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:mt-28 lg:grid-cols-12">
-        <h3 className="text-small font-semibold text-stone sm:col-span-2 lg:col-span-12">{contact.direct.title}</h3>
-        <DirectLink label={contact.direct.whatsapp} value={site.whatsapp ? `+${site.whatsapp}` : placeholders.whatsapp} href={whatsappHref} className="lg:col-span-5" />
-        <DirectLink label={contact.direct.email} value={site.email ?? placeholders.email} href={emailHref} className="lg:col-span-6 lg:col-start-7" />
-      </div>
+      {hasDirectContact ? (
+        <div className="mt-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:mt-28 lg:grid-cols-12">
+          <h3 className="text-small font-semibold text-stone sm:col-span-2 lg:col-span-12">{contact.direct.title}</h3>
+          {site.whatsapp ? (
+            <DirectLink label={contact.direct.whatsapp} value={`+${site.whatsapp}`} href={whatsappHref} className="lg:col-span-5" />
+          ) : null}
+          {site.email ? (
+            <DirectLink label={contact.direct.email} value={site.email} href={emailHref} className="lg:col-span-6 lg:col-start-7" />
+          ) : null}
+        </div>
+      ) : null}
     </section>
   );
 }
