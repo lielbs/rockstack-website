@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
+import { Words } from "@/components/ui/Words";
 import { Photo } from "@/components/ui/Photo";
 import { SectorNames } from "./SectorNames";
 
@@ -7,8 +8,8 @@ export function Sectors({ dict }: { dict: Dictionary }) {
   const { sectors } = dict;
   return (
     <section id="sectors" aria-labelledby="sectors-title" className="frame section-y bg-night">
-      <h2 id="sectors-title" data-reveal="mask" className="max-w-[20ch] text-title font-bold">
-        {sectors.heading}
+      <h2 id="sectors-title" data-reveal="words" className="max-w-[20ch] text-title font-bold">
+        <Words text={sectors.heading} />
       </h2>
       <div className="mt-12 grid grid-cols-1 items-end gap-x-8 gap-y-10 lg:mt-16 lg:grid-cols-12">
         <p data-reveal style={{ "--i": 1 } as CSSProperties} className="max-w-[36ch] text-body lg:order-2 lg:col-span-4 lg:col-start-9">

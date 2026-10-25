@@ -14,6 +14,8 @@ import { Sectors } from "@/components/sections/Sectors";
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
+import { Marquee } from "@/components/sections/Marquee";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 
 export default function Home() {
   const dict = getDictionary(defaultLocale);
@@ -24,6 +26,7 @@ export default function Home() {
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero dict={dict} />
         <Belief dict={dict} />
+        <Marquee items={dict.marquee} />
         <Strata dict={dict} />
         <Difference dict={dict} />
         <Services dict={dict} />
@@ -34,6 +37,7 @@ export default function Home() {
       </main>
       <Footer dict={dict} />
       <RevealRoot />
+      <SmoothScroll />
       <OrganizationJsonLd dict={dict} />
     </>
   );

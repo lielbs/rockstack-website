@@ -743,3 +743,88 @@ html:not(.js) .chart-line {
     transition-duration: 0ms;
   }
 }
+
+/* ───────────────────────── Kinetic type & bands ───────────────────────── */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+  scroll-behavior: auto;
+}
+
+/* Headings: each word rises out of its own mask, in reading order */
+.wm {
+  display: inline-block;
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+  vertical-align: bottom;
+  padding-block-end: 0.06em;
+}
+.wm .w {
+  display: inline-block;
+}
+.js [data-reveal="words"] {
+  opacity: 1;
+  translate: none;
+}
+.js [data-reveal="words"] .w {
+  translate: 0 108%;
+  transition: translate 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: calc(var(--w, 0) * 70ms);
+}
+.js [data-reveal="words"].is-in .w {
+  translate: none;
+}
+
+/* Marquee: what we build, moving slowly across a dark band */
+@keyframes marquee {
+  to {
+    translate: 50% 0;
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-run {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+.marquee-run li {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 2.75rem);
+  padding-inline-end: clamp(1.25rem, 3vw, 2.75rem);
+  font-size: clamp(2.75rem, 7vw, 7rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: var(--color-ivory);
+}
+.marquee-run li.marquee-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-stone);
+}
+.marquee-dot {
+  width: 0.28em;
+  height: 0.12em;
+  border-radius: 2px;
+  background: var(--color-amber);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal="words"] .w {
+    translate: none;
+    transition: none;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
+

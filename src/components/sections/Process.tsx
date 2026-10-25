@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
+import { Words } from "@/components/ui/Words";
 import { Photo } from "@/components/ui/Photo";
 
 /** Zigzag bottom edge for the paper slip: `teeth` triangles, `depth` px deep. */
@@ -20,8 +21,8 @@ export function Process({ dict }: { dict: Dictionary }) {
     <section id="process" aria-labelledby="process-title" className="on-dark frame section-y bg-slate text-ivory">
       <div className="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <h2 id="process-title" data-reveal="mask" className="max-w-[14ch] text-title font-bold">
-            {process.heading}
+          <h2 id="process-title" data-reveal="words" className="max-w-[14ch] text-title font-bold">
+            <Words text={process.heading} />
           </h2>
           <p data-reveal style={{ "--i": 1 } as CSSProperties} className="mt-6 max-w-[38ch] text-statement text-ivory">
             {process.intro}

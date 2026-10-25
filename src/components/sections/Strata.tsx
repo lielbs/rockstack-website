@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { IsoStack } from "@/components/brand/IsoStack";
 import type { Dictionary } from "@/content";
+import { Words } from "@/components/ui/Words";
 import { strataSlabs } from "./strata-slabs";
 import { StrataStack } from "./StrataStack";
 
@@ -13,8 +14,8 @@ export function Strata({ dict }: { dict: Dictionary }) {
     <section id="strata" aria-labelledby="strata-title" className="frame section-y bg-night">
       <div className="grid grid-cols-1 gap-x-8 lg:grid-cols-12">
         <div className="lg:col-span-6">
-          <h2 id="strata-title" data-reveal="mask" className="text-title font-bold">
-            {strata.heading}
+          <h2 id="strata-title" data-reveal="words" className="text-title font-bold">
+            <Words text={strata.heading} />
           </h2>
           <p data-reveal style={{ "--i": 1 } as CSSProperties} className="mt-6 max-w-[46ch] text-statement">
             {strata.intro}

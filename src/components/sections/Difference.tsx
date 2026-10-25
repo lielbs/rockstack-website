@@ -1,13 +1,14 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
+import { Words } from "@/components/ui/Words";
 import { Photo } from "@/components/ui/Photo";
 
 export function Difference({ dict }: { dict: Dictionary }) {
   const { difference } = dict;
   return (
     <section id="difference" aria-labelledby="difference-title" className="frame section-y bg-basalt">
-      <h2 id="difference-title" data-reveal="mask" className="max-w-[16ch] text-title font-bold">
-        {difference.heading}
+      <h2 id="difference-title" data-reveal="words" className="max-w-[16ch] text-title font-bold">
+        <Words text={difference.heading} />
       </h2>
 
       <div className="mt-14 grid grid-cols-1 items-center gap-x-8 gap-y-12 lg:mt-20 lg:grid-cols-12">

@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
+import { Words } from "@/components/ui/Words";
 import { placeholders, site } from "@/content/site";
 import { ContactForm } from "@/components/contact/ContactForm";
 
@@ -10,8 +11,8 @@ export function Contact({ dict }: { dict: Dictionary }) {
 
   return (
     <section id="contact" aria-labelledby="contact-title" className="on-dark grain frame section-y bg-night text-ivory">
-      <h2 id="contact-title" data-reveal="mask" className="max-w-[16ch] text-title font-bold">
-        {contact.heading}
+      <h2 id="contact-title" data-reveal="words" className="max-w-[16ch] text-title font-bold">
+        <Words text={contact.heading} />
       </h2>
       <p data-reveal style={{ "--i": 1 } as CSSProperties} className="mt-6 max-w-[40ch] text-statement text-stone">
         {contact.lead}

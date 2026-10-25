@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
+import { Words } from "@/components/ui/Words";
 import { IsoStack } from "@/components/brand/IsoStack";
 import type { SlabSpec } from "@/lib/iso";
 
@@ -18,8 +19,8 @@ export function About({ dict }: { dict: Dictionary }) {
     <section id="about" aria-labelledby="about-title" className="frame section-y bg-basalt">
       <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-12">
         <div className="lg:col-span-7">
-          <h2 id="about-title" data-reveal="mask" className="max-w-[18ch] text-title font-bold">
-            {about.heading}
+          <h2 id="about-title" data-reveal="words" className="max-w-[18ch] text-title font-bold">
+            <Words text={about.heading} />
           </h2>
           <p data-reveal style={{ "--i": 1 } as CSSProperties} className="mt-8 max-w-[52ch] text-statement">
             {about.text}

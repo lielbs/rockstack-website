@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/content";
+import { Words } from "@/components/ui/Words";
 import { MonitorPanel } from "./MonitorPanel";
 
 export function Belief({ dict }: { dict: Dictionary }) {
@@ -7,8 +8,8 @@ export function Belief({ dict }: { dict: Dictionary }) {
     <section id="belief" aria-labelledby="belief-title" className="on-dark grain frame section-y bg-basalt text-ivory">
       <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-12">
         <div className="lg:col-span-7">
-          <h2 id="belief-title" data-reveal="mask" className="max-w-[18ch] text-title font-bold">
-            {belief.heading}
+          <h2 id="belief-title" data-reveal="words" className="max-w-[18ch] text-title font-bold">
+            <Words text={belief.heading} />
           </h2>
           <p data-reveal style={{ "--i": 1 } as React.CSSProperties} className="mt-8 max-w-[44ch] text-statement text-ivory">
             {belief.statement}
