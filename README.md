@@ -67,8 +67,8 @@ Share image and icons: `node scripts/generate-brand-assets.mjs` (writes `public/
 | --- | --- |
 | `src/content/site.ts` | email, phone, WhatsApp number, city |
 | `src/content/he.ts` → about | founded year `[שנת הקמה]`, years of experience `[מספר שנות ניסיון]` |
-| `src/content/he.ts` → about.founders | names, roles check, bios, portraits `[תמונת השותף/ה]` |
+| `src/content/he.ts` → about.partners | role descriptions only; names are intentionally left out |
 | `src/content/he.ts` → sectors | client logos `[לוגו לקוח]` (only with client permission) |
-| `src/app/accessibility/page.tsx` | coordinator name, response time, testing details, known limitations, update date |
+| `src/app/accessibility/page.tsx` | coordinator (a role is enough, e.g. “צוות RockStack”), response time, testing details, known limitations, update date |
 | `src/app/privacy/page.tsx` | form/CRM provider, hosting, retention period, analytics, update date; **legal review required** |
 | Repository variable | `CONTACT_ENDPOINT` |

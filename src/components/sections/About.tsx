@@ -1,6 +1,16 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
-import { LogoMark } from "@/components/brand/Logo";
+import { IsoStack } from "@/components/brand/IsoStack";
+import type { SlabSpec } from "@/lib/iso";
+
+const infraSlabs: SlabSpec[] = [
+  { w: 84, d: 62, h: 9, tone: "ivory" },
+  { w: 70, d: 52, h: 8, tone: "stoneLight" },
+];
+const devSlabs: SlabSpec[] = [
+  { w: 56, d: 42, h: 8, tone: "slate" },
+  { w: 40, d: 30, h: 7, tone: "amber" },
+];
 
 export function About({ dict }: { dict: Dictionary }) {
   const { about } = dict;
@@ -25,19 +35,25 @@ export function About({ dict }: { dict: Dictionary }) {
         </dl>
       </div>
 
-      <ul className="mt-20 grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:mt-24">
-        {about.founders.map((founder, i) => (
-          <li key={i} data-reveal style={{ "--i": i } as CSSProperties} className="grid grid-cols-[8rem_1fr] gap-6 sm:grid-cols-[11rem_1fr]">
-            {/* Placeholder frame for the founder's portrait */}
-            <div className="relative grid aspect-[4/5] place-items-center overflow-hidden rounded-[var(--radius-slab)] bg-night text-center">
-              <LogoMark tone="dark" className="w-1/2 opacity-25" />
-              <span className="absolute inset-x-2 bottom-3 text-small text-stone">{founder.photoLabel}</span>
-            </div>
-            <div className="self-center">
-              <h3 className="text-statement font-bold">{founder.name}</h3>
-              <p className="mt-1 font-semibold text-stone">{founder.role}</p>
-              <p className="mt-4 max-w-[44ch] text-body">{founder.bio}</p>
-            </div>
+      <ul className="mt-20 grid grid-cols-1 gap-3 md:grid-cols-2 lg:mt-24">
+        {about.partners.map((partner, i) => (
+          <li
+            key={partner.role}
+            data-reveal
+            style={{ "--i": i } as CSSProperties}
+            className="flex flex-col rounded-[6px] bg-night p-7 sm:p-10"
+          >
+            {/* The lower layers for infrastructure, the upper layers for development */}
+            <IsoStack slabs={i === 0 ? infraSlabs : devSlabs} gap={4} className="h-20 w-auto self-start" />
+            <h3 className="mt-8 text-statement font-bold">{partner.role}</h3>
+            <ul className="mt-5 space-y-2.5 text-body text-stone">
+              {partner.areas.map((area) => (
+                <li key={area} className="flex items-baseline gap-3">
+                  <span aria-hidden="true" className="inline-block h-1 w-3 shrink-0 translate-y-[-0.3em] rounded-[1px] bg-amber" />
+                  {area}
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ul>

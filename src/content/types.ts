@@ -68,7 +68,8 @@ export type Dictionary = {
     heading: string;
     text: string;
     facts: { label: string; value: string }[];
-    founders: { name: string; role: string; bio: string; photoLabel: string }[];
+    /** The two disciplines behind the company, described by role only (no names). */
+    partners: { role: string; areas: string[] }[];
   };
   contact: {
     heading: string;
