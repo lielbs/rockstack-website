@@ -10,19 +10,20 @@
   --color-amber: #e8892b;
   /* Tone steps derived from the palette, used only to separate surfaces */
   --color-ivory-deep: #e9e6e0;
-  --color-basalt-raised: #20242a;
+  --color-night: #0d0f12;
+  --color-basalt-raised: #1f2329;
   --color-slate-deep: #3d4550;
-  /* Dimmed ink for large type only (3.5:1 on ivory) */
-  --color-stone-ink: #7b8390;
+  /* Dimmed ink for large type only (3.6:1 on basalt) */
+  --color-stone-ink: #6b7380;
 
   /* Latin first so Hebrew falls through to Heebo and Latin renders in Space Grotesk */
   --font-sans: var(--font-space), var(--font-heebo), system-ui, sans-serif;
   --font-latin: var(--font-space), system-ui, sans-serif;
 
   /* Five type steps for the whole site */
-  --text-display: clamp(2.125rem, 9.2vw, 8.5rem);
-  --text-display--line-height: 0.98;
-  --text-display--letter-spacing: -0.025em;
+  --text-display: clamp(2.375rem, 10.4vw, 7rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.03em;
   --text-title: clamp(2rem, 1.15rem + 3.3vw, 4.5rem);
   --text-title--line-height: 1.04;
   --text-title--letter-spacing: -0.02em;
@@ -45,7 +46,7 @@
   --section-y: clamp(6rem, 11vw, 12rem);
   /* Height of the uncompacted sticky header (py + tallest control) */
   --header-h: 5rem;
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 @media (min-width: 48rem) {
@@ -59,7 +60,7 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 1rem);
-  background: var(--color-ivory);
+  background: var(--color-night);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -69,8 +70,8 @@ html {
 }
 
 body {
-  background: var(--color-ivory);
-  color: var(--color-basalt);
+  background: var(--color-night);
+  color: var(--color-ivory);
   font-family: var(--font-sans);
   font-size: var(--text-body);
   line-height: var(--text-body--line-height);
@@ -194,10 +195,6 @@ li {
   background: var(--color-amber);
   color: var(--color-basalt);
   &:hover {
-    background: var(--color-basalt);
-    color: var(--color-ivory);
-  }
-  .on-dark &:hover {
     background: var(--color-ivory);
     color: var(--color-basalt);
   }
@@ -247,7 +244,34 @@ li {
 
 /* Hero exploded view, driven by --explode (0..1) set from scroll */
 .slab-explode {
-  transform: translateY(calc(var(--explode, 0) * var(--layer, 0) * -16px));
+  transform: translateY(calc(var(--explode, 0) * var(--layer, 0) * -26px));
+}
+
+/* Floor shadow fades in once the base slab has landed */
+@keyframes shadow-in {
+  from {
+    opacity: 0;
+  }
+}
+.iso-shadow {
+  animation: shadow-in 500ms 380ms ease-out both;
+}
+
+/* Hero title shares the display step; beside the render it is capped to its column */
+@media (min-width: 64rem) {
+  .hero-title {
+    font-size: min(5.6vw, 5.25rem);
+  }
+}
+
+/* Soft studio light behind the hero render */
+.hero-light::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(55% 60% at 22% 55%, rgb(244 242 238 / 0.075), transparent 70%);
 }
 
 /* Section entrances: hidden only when script runs, so content never depends on JS. */
@@ -280,7 +304,8 @@ li {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .slab-drop {
+  .slab-drop,
+  .iso-shadow {
     animation: none;
   }
   .js [data-reveal] {

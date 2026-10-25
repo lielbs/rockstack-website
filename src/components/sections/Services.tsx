@@ -7,7 +7,7 @@ export function Services({ dict }: { dict: Dictionary }) {
   const { services } = dict;
   const lastGroup = services.groups.length - 1;
   return (
-    <section id="services" aria-labelledby="services-title" className="frame section-y bg-ivory">
+    <section id="services" aria-labelledby="services-title" className="frame section-y bg-night">
       <div className="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-28">
@@ -46,7 +46,7 @@ export function Services({ dict }: { dict: Dictionary }) {
                         <li
                           key={item.name}
                           className={`grid gap-x-6 gap-y-1 rounded-[3px] px-4 py-3.5 sm:grid-cols-[minmax(0,15rem)_1fr] sm:px-5 ${
-                            foundation ? "bg-slate-deep" : "bg-basalt"
+                            foundation ? "bg-slate-deep" : "bg-night"
                           }`}
                         >
                           <span className="font-semibold text-ivory">{item.name}</span>

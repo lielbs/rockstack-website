@@ -27,13 +27,14 @@ export function Header({ dict }: { dict: Dictionary }) {
 
   return (
     <header
-      className={`frame sticky top-0 z-40 bg-ivory transition-[padding] duration-300 ${
+      className={`frame sticky top-0 z-40 bg-night/80 backdrop-blur-xl backdrop-saturate-150 transition-[padding] duration-300 ${
         compact ? "py-2.5" : "py-4 md:py-5"
       }`}
     >
       <div className="flex items-center justify-between gap-6">
         <a href="#top" aria-label={dict.a11y.home} className="shrink-0 rounded-sm">
           <Logo
+            tone="dark"
             markClassName={`transition-[width,height] duration-300 ${compact ? "size-8" : "size-9 md:size-10"}`}
             textClassName={`transition-[font-size] duration-300 ${compact ? "text-[1.35rem]" : "text-[1.45rem] md:text-[1.65rem]"}`}
           />
@@ -43,7 +44,7 @@ export function Header({ dict }: { dict: Dictionary }) {
           <ul className="flex items-center gap-8 text-small font-medium">
             {dict.nav.items.map((item) => (
               <li key={item.href}>
-                <a href={item.href} className="link-quiet py-2 text-slate no-underline hover:text-basalt">
+                <a href={item.href} className="link-quiet py-2 text-stone no-underline hover:text-ivory">
                   {item.label}
                 </a>
               </li>
@@ -60,7 +61,7 @@ export function Header({ dict }: { dict: Dictionary }) {
             onClick={openMenu}
             aria-label={dict.a11y.menuOpen}
             aria-haspopup="dialog"
-            className="grid size-12 place-items-center rounded-[var(--radius-slab)] bg-basalt text-ivory transition-colors hover:bg-slate lg:hidden"
+            className="grid size-12 place-items-center rounded-[var(--radius-slab)] bg-basalt-raised text-ivory transition-colors hover:bg-slate lg:hidden"
           >
             <svg viewBox="0 0 24 24" className="size-6" aria-hidden="true">
               <rect x="7" y="5" width="10" height="3" rx="1" fill="#E8892B" />

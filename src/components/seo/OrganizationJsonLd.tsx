@@ -10,7 +10,6 @@ export function OrganizationJsonLd({ dict }: { dict: Dictionary }) {
     url: `${site.url}/`,
     logo: `${site.url}/icon.svg`,
     description: dict.meta.description,
-    slogan: "Anyone can build. We build on rock.",
     areaServed: "IL",
   };
   if (site.email) data.email = site.email;

@@ -9,7 +9,7 @@ export function Contact({ dict }: { dict: Dictionary }) {
   const emailHref = site.email ? `mailto:${site.email}` : undefined;
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="on-dark grain frame section-y bg-basalt text-ivory">
+    <section id="contact" aria-labelledby="contact-title" className="on-dark grain frame section-y bg-night text-ivory">
       <h2 id="contact-title" data-reveal className="max-w-[16ch] text-title font-bold">
         {contact.heading}
       </h2>

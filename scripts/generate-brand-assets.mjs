@@ -1,7 +1,7 @@
-// Generates the share image and app icons from the brand mark.
-//   public/og.png             1200×630 Open Graph / Twitter card (rendered in Chrome for correct RTL)
-//   src/app/apple-icon.png    180×180
-//   src/app/favicon.ico       32×32 (PNG inside an ICO container)
+﻿// Generates the share image and app icons from the brand mark.
+//   public/og.png             1200Ã—630 Open Graph / Twitter card (rendered in Chrome for correct RTL)
+//   src/app/apple-icon.png    180Ã—180
+//   src/app/favicon.ico       32Ã—32 (PNG inside an ICO container)
 // Usage: node scripts/generate-brand-assets.mjs   (needs Playwright + a local Chrome, and network for Google Fonts)
 import { writeFile } from "node:fs/promises";
 import sharp from "sharp";
@@ -42,22 +42,22 @@ await writeFile("src/app/favicon.ico", Buffer.concat([header, png32]));
 
 const ogHtml = `<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;800&family=Space+Grotesk:wght@400;700&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&family=Space+Grotesk:wght@400;700&display=block" rel="stylesheet">
 <style>
   *{margin:0;box-sizing:border-box}
-  body{width:1200px;height:630px;background:#F4F2EE;color:#16191D;font-family:'Space Grotesk','Heebo',sans-serif;padding:64px 72px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+  body{width:1200px;height:630px;background:#0D0F12;color:#F4F2EE;font-family:'Space Grotesk','Heebo',sans-serif;padding:64px 72px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
   .logo{display:flex;align-items:center;gap:14px;direction:ltr;align-self:flex-end}
   .logo svg{width:64px;height:64px}
   .word{font-size:46px;letter-spacing:-.02em;line-height:1}
-  .word b{font-weight:700}.word span{font-weight:400;color:#4A5361}
-  h1{font-family:'Heebo';font-weight:800;font-size:96px;line-height:.98;letter-spacing:-.025em}
-  p{font-size:26px;color:#4A5361;direction:ltr;text-align:right}
-  .band{position:absolute;inset-inline:0;bottom:0;height:18px;background:#16191D}
+  .word b{font-weight:700}.word span{font-weight:400;color:#A3A9B2}
+  h1{font-family:'Heebo';font-weight:700;font-size:92px;line-height:1.02;letter-spacing:-.03em}h1 span{color:#A3A9B2}
+  p{font-size:26px;color:#A3A9B2;direction:ltr;text-align:right}
+  .band{position:absolute;inset-inline:0;bottom:0;height:18px;background:#F4F2EE}
   .band i{position:absolute;bottom:18px;left:72px;width:220px;height:12px;background:#E8892B;border-radius:3px 3px 0 0}
 </style></head><body>
-  <div class="logo"><svg viewBox="0 0 96 96">${mark("#E8892B", "#4A5361", "#16191D")}</svg><div class="word"><b>Rock</b><span>Stack</span></div></div>
-  <h1>כל אחד יכול לבנות.<br>אנחנו בונים על סלע.</h1>
-  <p>Software · Infrastructure · AI</p>
+  <div class="logo"><svg viewBox="0 0 96 96">${mark("#E8892B", "#A3A9B2", "#F4F2EE")}</svg><div class="word"><b>Rock</b><span>Stack</span></div></div>
+  <h1>×”×ª×•×›× ×” ×©×œ×›×,<br><span>×•×”×©×¨×ª×™× ×©×ž×ª×—×ª×™×”.</span></h1>
+  <p>Software Â· Infrastructure Â· AI</p>
   <div class="band"><i></i></div>
 </body></html>`;
 

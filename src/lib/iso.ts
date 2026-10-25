@@ -3,16 +3,20 @@
  * vertical axis, resting at height z0. Only the three faces facing the viewer are drawn.
  */
 
-export type SlabTone = "basalt" | "slateDeep" | "slate" | "stone" | "ivory" | "amber";
+export type SlabTone = "basalt" | "slateDeep" | "slate" | "stone" | "stoneLight" | "ivory" | "amber";
 
-/** [top, left face, right face]: light from the upper left, so the right face is darkest. */
-export const slabFaces: Record<SlabTone, [string, string, string]> = {
-  basalt: ["#2C3138", "#16191D", "#0D0F12"],
-  slateDeep: ["#4F5866", "#363D47", "#282E36"],
-  slate: ["#677284", "#4A5361", "#3A414D"],
-  stone: ["#C3C8CF", "#A3A9B2", "#878D97"],
-  ivory: ["#FFFFFF", "#F4F2EE", "#D9D5CE"],
-  amber: ["#F6A65A", "#E8892B", "#C26F1D"],
+/**
+ * Lit face colours, light from the upper left and behind:
+ * [top far, top near, left top, left bottom, right top, right bottom].
+ */
+export const slabFaces: Record<SlabTone, [string, string, string, string, string, string]> = {
+  basalt: ["#3a4049", "#2a2f36", "#1d2126", "#15181c", "#121417", "#0b0d0f"],
+  slateDeep: ["#606a7a", "#4d5664", "#3f4652", "#343a44", "#2d333c", "#22272e"],
+  slate: ["#7d889a", "#646e7f", "#525b6a", "#434a57", "#3a414d", "#2c323b"],
+  stone: ["#d6dae0", "#b9bec6", "#a3a9b2", "#8b919a", "#7e848e", "#686e78"],
+  stoneLight: ["#eceef1", "#d3d7dc", "#c1c6cd", "#a9aeb6", "#989da6", "#80858e"],
+  ivory: ["#ffffff", "#efece6", "#e5e1da", "#cdc8c0", "#b8b3ab", "#9f9a92"],
+  amber: ["#ffc684", "#f5a352", "#e8892b", "#d0761d", "#c26f1d", "#a35b13"],
 };
 
 export type SlabSpec = { w: number; d: number; h: number; tone: SlabTone };
@@ -34,6 +38,10 @@ export function slabPolygons({ w, d, h }: SlabSpec, z0: number) {
     top: [project(-x, -y, top), project(x, -y, top), project(x, y, top), project(-x, y, top)].join(" "),
     right: [project(x, -y, z0), project(x, y, z0), project(x, y, top), project(x, -y, top)].join(" "),
     left: [project(-x, y, z0), project(x, y, z0), project(x, y, top), project(-x, y, top)].join(" "),
+    /** The three top edges nearest the viewer, for a fine chamfer highlight. */
+    rim: [project(-x, y, top), project(x, y, top), project(x, -y, top)].join(" "),
+    /** Footprint on the floor, for the contact shadow. */
+    floor: [project(-x, -y, z0), project(x, -y, z0), project(x, y, z0), project(-x, y, z0)].join(" "),
   };
 }
 
@@ -48,13 +56,13 @@ export function stackBases(slabs: SlabSpec[], gap: number): number[] {
   return bases;
 }
 
-/** ViewBox that fits a stack, with padding. */
-export function stackViewBox(slabs: SlabSpec[], gap: number, pad = 8): string {
+/** ViewBox that fits a stack, with padding (extra room below for the floor shadow). */
+export function stackViewBox(slabs: SlabSpec[], gap: number, pad = 8, floor = 0): string {
   const maxW = Math.max(...slabs.map((s) => s.w));
   const maxD = Math.max(...slabs.map((s) => s.d));
   const height = slabs.reduce((sum, s) => sum + s.h, 0) + gap * (slabs.length - 1);
   const halfSpan = ((maxW + maxD) / 2) * COS;
-  const minY = -(maxW + maxD) / 2 * SIN - height;
-  const maxY = ((maxW + maxD) / 2) * SIN;
-  return `${(-halfSpan - pad).toFixed(1)} ${(minY - pad).toFixed(1)} ${(halfSpan * 2 + pad * 2).toFixed(1)} ${(maxY - minY + pad * 2).toFixed(1)}`;
+  const minY = (-(maxW + maxD) / 2) * SIN - height;
+  const maxY = ((maxW + maxD) / 2) * SIN + floor;
+  return `${(-halfSpan - pad - floor).toFixed(1)} ${(minY - pad).toFixed(1)} ${(halfSpan * 2 + (pad + floor) * 2).toFixed(1)} ${(maxY - minY + pad * 2).toFixed(1)}`;
 }
