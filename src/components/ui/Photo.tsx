@@ -16,7 +16,7 @@ export function Photo({ photo, sizes, className = "", imgClassName = "", priorit
   const largest = photo.widths.at(-1) ?? 1600;
   const srcSet = photo.widths.map((w) => `${asset(`/media/${photo.id}-${w}.webp`)} ${w}w`).join(", ");
   return (
-    <div className={`relative overflow-hidden bg-basalt ${className}`} style={{ aspectRatio: frameRatio ?? photo.ratio }}>
+    <div className={`photo-frame relative overflow-hidden bg-basalt ${className}`} style={{ aspectRatio: frameRatio ?? photo.ratio }}>
       {/* eslint-disable-next-line @next/next/no-img-element -- static export: no image optimizer */}
       <img
         src={asset(`/media/${photo.id}-${photo.widths[1] ?? largest}.webp`)}

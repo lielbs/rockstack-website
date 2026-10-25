@@ -39,6 +39,8 @@
 
   --ease-settle: cubic-bezier(0.55, 0, 0.9, 0.45);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  /* Controls: quick and exact, no overshoot (the brand moves like stone, not rubber) */
+  --ease-press: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 :root {
@@ -170,33 +172,120 @@ li {
 
 /* ───────────────────────── Buttons ───────────────────────── */
 @utility btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6em;
   min-height: 3.25rem;
-  padding-inline: 1.5rem;
-  border-radius: var(--radius-slab);
-  font-weight: 600;
+  padding-inline: 1.6rem;
+  border-radius: 6px;
+  font-weight: 700;
   font-size: var(--text-body);
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*
+ * The primary action is the logo as a key: an amber top slab resting on a stone
+ * and an ivory layer. Hover opens the layers, pressing compresses them like a
+ * mechanical key, and the release springs back.
+ */
+@utility btn-primary {
+  --g1: 5px;
+  --g2: 15px;
+  margin-block-end: 24px;
+  background: var(--color-amber);
+  color: var(--color-basalt);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.4),
+    0 4px 0 #b9661a;
   transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    transform 120ms ease;
+    transform 200ms var(--ease-press),
+    box-shadow 200ms var(--ease-press);
+  /* The two lower slabs of the logo, wider as they go down */
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 4px;
+    pointer-events: none;
+    transition:
+      top 200ms var(--ease-press),
+      inset-inline 200ms var(--ease-press);
+  }
+  &::before {
+    top: calc(100% + var(--g1));
+    height: 6px;
+    inset-inline: -5px;
+    background: var(--color-stone);
+  }
+  &::after {
+    top: calc(100% + var(--g2));
+    height: 6px;
+    inset-inline: -10px;
+    opacity: 0.85;
+    background: var(--color-ivory);
+  }
+  &:hover {
+    --g1: 6px;
+    --g2: 17px;
+    transform: translateY(-1px);
+  }
   &:active {
-    transform: translateY(1px) scale(0.985);
+    --g1: 2px;
+    --g2: 9px;
+    transform: translateY(4px);
+    box-shadow:
+      inset 0 2px 3px rgb(0 0 0 / 0.15),
+      0 0 0 #b9661a;
+    transition-duration: 70ms;
+    transition-timing-function: ease-out;
+  }
+  &:disabled {
+    cursor: progress;
+    opacity: 0.75;
   }
 }
 
-@utility btn-primary {
-  background: var(--color-amber);
-  color: var(--color-basalt);
-  &:hover {
+/* Compact key (header, menus): the press without the lower slabs */
+@utility btn-compact {
+  margin-block-end: 4px;
+  &::before,
+  &::after {
+    display: none;
+  }
+}
+
+/* Secondary action: text with a round arrow that drops toward the next section */
+@utility btn-ghost {
+  gap: 0.75rem;
+  padding-inline: 0.25rem;
+  color: var(--color-ivory);
+  font-weight: 600;
+  & .ghost-icon {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    background: var(--color-basalt-raised);
+    transition:
+      background-color 200ms ease,
+      color 200ms ease,
+      transform 320ms var(--ease-press);
+  }
+  &:hover .ghost-icon {
     background: var(--color-ivory);
     color: var(--color-basalt);
+    transform: translateY(3px);
+  }
+  &:active .ghost-icon {
+    transform: translateY(5px);
+    transition-duration: 80ms;
   }
 }
 
@@ -211,7 +300,111 @@ li {
   }
 }
 
-/* ───────────────────────── Motion ───────────────────────── */
+/* Navigation: an amber slab slides in under the link, from the reading start */
+@utility nav-link {
+  position: relative;
+  padding-block: 0.5rem;
+  color: var(--color-stone);
+  transition: color 200ms ease;
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--color-amber);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 320ms var(--ease-press);
+  }
+  &:hover {
+    color: var(--color-ivory);
+  }
+  &:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Form choices are keys: they press in, stay down when chosen, and show a tick */
+.keycap {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.875rem;
+  padding-inline: 1rem;
+  border-radius: 6px;
+  background: var(--color-basalt-raised);
+  color: var(--color-ivory);
+  font-size: var(--text-small);
+  font-weight: 600;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.07),
+    0 4px 0 #0a0b0d;
+  transition:
+    transform 260ms var(--ease-press),
+    box-shadow 260ms var(--ease-press),
+    background-color 160ms ease,
+    color 160ms ease;
+  user-select: none;
+}
+.keycap:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.09),
+    0 5px 0 #0a0b0d;
+}
+.keycap:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #0a0b0d;
+  transition-duration: 60ms;
+}
+.keycap-input:checked + .keycap {
+  background: var(--color-amber);
+  color: var(--color-basalt);
+  transform: translateY(3px);
+  box-shadow:
+    inset 0 2px 3px rgb(0 0 0 / 0.18),
+    0 1px 0 #a35b13;
+}
+.keycap-input:focus-visible + .keycap {
+  outline: 3px solid var(--color-ivory);
+  outline-offset: 3px;
+}
+.keycap-check {
+  display: inline-grid;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  scale: 0.3;
+  transition:
+    width 220ms ease,
+    margin 220ms ease,
+    opacity 160ms ease,
+    scale 360ms var(--ease-press);
+}
+.keycap-input:checked + .keycap .keycap-check {
+  width: 1.05em;
+  margin-inline-end: 0.45em;
+  opacity: 1;
+  scale: 1;
+}
+
+/* Menu icon: its slabs part on hover */
+.menu-icon rect {
+  transition: transform 300ms var(--ease-press);
+}
+.menu-trigger:hover .menu-icon rect:nth-child(1) {
+  transform: translateY(-1.5px);
+}
+.menu-trigger:hover .menu-icon rect:nth-child(3) {
+  transform: translateY(1.5px);
+}
+
+
+/* ───────────────────────── Motion ─────────────────────────
+   Policy: every animation explains something (layers, load, status, order).
+   Under prefers-reduced-motion nothing travels across the screen, but fades,
+   status lights and line drawings stay, so the page still reads as alive. */
 
 /* Hero slabs: a fast fall and a hard stop, like stone settling. */
 @keyframes settle {
@@ -242,9 +435,28 @@ li {
   animation-delay: var(--delay, 0ms);
 }
 
-/* Hero exploded view, driven by --explode (0..1) set from scroll */
+/* Hero: exploded view on scroll (--explode), pointer parallax (--px/--py), slow idle float */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.4px);
+  }
+}
+
 .slab-explode {
-  transform: translateY(calc(var(--explode, 0) * var(--layer, 0) * -26px));
+  translate: calc(var(--px, 0) * var(--layer, 0) * 3.5px)
+    calc(var(--py, 0) * var(--layer, 0) * 2px + var(--explode, 0) * var(--layer, 0) * -30px);
+  transition: translate 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: float 6.5s ease-in-out infinite;
+  animation-delay: calc(var(--layer, 0) * -1.6s);
+}
+
+.explode-label {
+  opacity: clamp(0, calc(var(--explode, 0) * 6 - 0.3), 1);
+  transition: opacity 400ms ease;
 }
 
 /* Floor shadow fades in once the base slab has landed */
@@ -260,7 +472,7 @@ li {
 /* Hero title shares the display step; beside the render it is capped to its column */
 @media (min-width: 64rem) {
   .hero-title {
-    font-size: min(5.6vw, 5.25rem);
+    font-size: min(5vw, 5.25rem);
   }
 }
 
@@ -274,22 +486,58 @@ li {
   background: radial-gradient(55% 60% at 22% 55%, rgb(244 242 238 / 0.075), transparent 70%);
 }
 
-/* Section entrances: hidden only when script runs, so content never depends on JS. */
+/* Entrances: hidden only when script runs, so content never depends on JS. */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(22px);
+  translate: 0 26px;
   transition:
-    opacity 700ms var(--ease-out-quart),
-    transform 700ms var(--ease-out-quart);
-  transition-delay: calc(var(--i, 0) * 80ms);
+    opacity 800ms var(--ease-out-quart),
+    translate 800ms var(--ease-out-quart),
+    clip-path 900ms var(--ease-out-quart);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* Headings rise out of a mask */
+.js [data-reveal="mask"] {
+  opacity: 1;
+  translate: 0 0.5em;
+  clip-path: inset(0 0 100% 0);
 }
 
 .js [data-reveal].is-in {
   opacity: 1;
-  transform: none;
+  translate: none;
+}
+.js [data-reveal="mask"].is-in {
+  clip-path: inset(-0.2em -0.2em -0.3em -0.2em);
 }
 
-/* Strata layers: slabs land as their paragraph enters */
+/* Photographs open from a smaller frame, then drift slowly while in view */
+.js [data-reveal] .photo-frame {
+  clip-path: inset(7% 7% 7% 7% round 6px);
+  transition: clip-path 1200ms var(--ease-out-quart);
+}
+.js [data-reveal].is-in .photo-frame {
+  clip-path: inset(0 0 0 0 round 0);
+}
+
+@keyframes photo-drift {
+  from {
+    scale: 1.16;
+  }
+  to {
+    scale: 1;
+  }
+}
+@supports (animation-timeline: view()) {
+  .photo-frame img {
+    animation: photo-drift linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+}
+
+/* Strata, desktop: slabs land as their paragraph is reached */
 .strata-slab {
   transform-box: fill-box;
   transform-origin: 50% 100%;
@@ -303,25 +551,195 @@ li {
   opacity: 0;
 }
 
+/* Strata, phones: each layer's stack builds slab by slab when it enters */
+.js [data-reveal] .mini-slab {
+  opacity: 0;
+  translate: 0 -42px;
+  transition:
+    opacity 300ms linear,
+    translate 520ms var(--ease-settle);
+  transition-delay: calc(var(--layer, 0) * 150ms + 150ms);
+}
+.js [data-reveal].is-in .mini-slab {
+  opacity: 1;
+  translate: none;
+}
+
+/* Services rack: units power on one after another, then blink with activity */
+.led {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: #353b45;
+  transition:
+    background-color 300ms ease,
+    box-shadow 300ms ease;
+  transition-delay: calc(var(--n, 0) * 110ms + 250ms);
+}
+.is-in .led,
+html:not(.js) .led {
+  background: var(--color-amber);
+  box-shadow: 0 0 10px rgb(232 137 43 / 0.55);
+}
+@keyframes activity {
+  0%,
+  88%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 0.3;
+  }
+}
+.is-in .led {
+  animation: activity 7s steps(1) infinite;
+  animation-delay: calc(var(--n, 0) * 0.9s + 2s);
+}
+
+@keyframes sweep {
+  from {
+    translate: 0 -100%;
+  }
+  to {
+    translate: 0 100%;
+  }
+}
+.rack-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.rack-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 40%, rgb(244 242 238 / 0.07) 50%, transparent 60%);
+  translate: 0 -100%;
+}
+.is-in .rack-sweep::after,
+.rack-sweep.is-in::after {
+  animation: sweep 1600ms 200ms var(--ease-out-quart) both;
+}
+
+/* Process slip: printed row by row, each stage ticked off */
+.js [data-reveal] .slip-print {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1400ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+.js [data-reveal].is-in .slip-print {
+  clip-path: inset(0 0 0 0);
+}
+.js [data-reveal] .slip-row {
+  opacity: 0;
+  transition: opacity 400ms ease;
+  transition-delay: calc(var(--n, 0) * 180ms + 350ms);
+}
+.js [data-reveal].is-in .slip-row {
+  opacity: 1;
+}
+.tick path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  transition: stroke-dashoffset 500ms ease;
+  transition-delay: calc(var(--n, 0) * 180ms + 650ms);
+}
+.is-in .tick path,
+html:not(.js) .tick path {
+  stroke-dashoffset: 0;
+}
+
+/* Monitoring panel: the chart draws, then the alerts arrive */
+.chart-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1800ms cubic-bezier(0.45, 0, 0.2, 1) 300ms;
+}
+.is-in .chart-line,
+html:not(.js) .chart-line {
+  stroke-dashoffset: 0;
+}
+.js [data-reveal] .alert-row {
+  opacity: 0;
+  translate: 0 10px;
+  transition:
+    opacity 420ms ease,
+    translate 420ms var(--ease-out-quart);
+  transition-delay: calc(var(--n, 0) * 420ms + 1700ms);
+}
+.js [data-reveal].is-in .alert-row {
+  opacity: 1;
+  translate: none;
+}
+@keyframes ping {
+  0% {
+    box-shadow: 0 0 0 0 rgb(232 137 43 / 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 9px rgb(232 137 43 / 0);
+  }
+}
+.status-ping {
+  animation: ping 1.6s ease-out infinite;
+}
+
+/* Pointer light on dark panels (desktop); --mx/--my set by RevealRoot */
+[data-spotlight] {
+  background-image: radial-gradient(
+    420px circle at var(--mx, -999px) var(--my, -999px),
+    rgb(244 242 238 / 0.06),
+    transparent 45%
+  );
+}
+
 @media (prefers-reduced-motion: reduce) {
   .slab-drop,
-  .iso-shadow {
+  .iso-shadow,
+  .slab-explode,
+  .status-ping,
+  .is-in .led,
+  .photo-frame img {
     animation: none;
   }
-  .js [data-reveal] {
-    opacity: 1;
-    transform: none;
+  .slab-explode {
+    translate: none;
     transition: none;
+  }
+  .explode-label {
+    opacity: 1;
+  }
+  .iso-motion {
+    display: none;
+  }
+  /* Fades stay; nothing travels */
+  .js [data-reveal],
+  .js [data-reveal="mask"],
+  .js [data-reveal] .mini-slab,
+  .js [data-reveal] .alert-row {
+    translate: none;
+  }
+  .js [data-reveal="mask"] {
+    clip-path: none;
+    opacity: 0;
+  }
+  .js [data-reveal="mask"].is-in {
+    opacity: 1;
+  }
+  .js [data-reveal] .photo-frame,
+  .js [data-reveal] .slip-print {
+    clip-path: none;
+  }
+  .rack-sweep::after {
+    display: none;
   }
   .strata-slab,
   .js .strata-slab[data-on="false"] {
-    transition: none;
     transform: none;
-    opacity: 1;
+    transition: opacity 300ms linear;
   }
   .btn,
-  .btn:active {
-    transition: none;
-    transform: none;
+  .keycap,
+  .nav-link::after {
+    transition-duration: 0ms;
   }
 }

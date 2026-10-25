@@ -7,7 +7,7 @@ export function Sectors({ dict }: { dict: Dictionary }) {
   const { sectors } = dict;
   return (
     <section id="sectors" aria-labelledby="sectors-title" className="frame section-y bg-night">
-      <h2 id="sectors-title" data-reveal className="max-w-[20ch] text-title font-bold">
+      <h2 id="sectors-title" data-reveal="mask" className="max-w-[20ch] text-title font-bold">
         {sectors.heading}
       </h2>
       <div className="mt-12 grid grid-cols-1 items-end gap-x-8 gap-y-10 lg:mt-16 lg:grid-cols-12">

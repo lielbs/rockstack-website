@@ -6,7 +6,7 @@ export function Difference({ dict }: { dict: Dictionary }) {
   const { difference } = dict;
   return (
     <section id="difference" aria-labelledby="difference-title" className="frame section-y bg-basalt">
-      <h2 id="difference-title" data-reveal className="max-w-[16ch] text-title font-bold">
+      <h2 id="difference-title" data-reveal="mask" className="max-w-[16ch] text-title font-bold">
         {difference.heading}
       </h2>
 

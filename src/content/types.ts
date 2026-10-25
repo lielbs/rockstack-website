@@ -18,7 +18,14 @@ export type Dictionary = {
   a11y: { skip: string; menuOpen: string; menuClose: string; home: string };
   nav: { items: { href: string; label: string }[]; cta: string };
   descriptor: string;
-  hero: { lines: [string, string]; lead: string; cta: string; secondary: string };
+  hero: {
+    lines: [string, string];
+    lead: string;
+    cta: string;
+    secondary: string;
+    /** Names of the three hero slabs, base first. */
+    layers: [string, string, string];
+  };
   belief: {
     heading: string;
     statement: string;
@@ -27,7 +34,14 @@ export type Dictionary = {
     slowTitle: string;
     slow: string[];
     close: string;
-    photo: Photo;
+    /** Illustrative monitoring panel: what an unprepared system looks like a few weeks after launch. */
+    monitor: {
+      title: string;
+      badge: string;
+      chartLabel: string;
+      status: string;
+      alerts: { time: string; text: string; value: string }[];
+    };
   };
   strata: {
     heading: string;

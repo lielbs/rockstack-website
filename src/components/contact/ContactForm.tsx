@@ -129,7 +129,7 @@ export function ContactForm({ contact }: { contact: Dictionary["contact"] }) {
           <fieldset>
             <legend className="text-statement font-bold">{builder.legend}</legend>
             <p className="mt-2 text-body text-stone">{builder.hint}</p>
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-6 flex flex-wrap gap-x-2 gap-y-3">
               {builder.needs.map((need) => (
                 <label key={need.id} className="cursor-pointer">
                   <input
@@ -138,9 +138,14 @@ export function ContactForm({ contact }: { contact: Dictionary["contact"] }) {
                     value={need.id}
                     checked={selected.includes(need.id)}
                     onChange={() => toggle(need.id)}
-                    className="peer sr-only"
+                    className="keycap-input sr-only"
                   />
-                  <span className="inline-flex min-h-11 items-center rounded-[var(--radius-slab)] bg-basalt-raised px-4 text-small font-semibold text-ivory transition-colors duration-150 peer-not-checked:hover:bg-slate-deep peer-checked:bg-amber peer-checked:text-basalt peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-amber">
+                  <span className="keycap">
+                    <span className="keycap-check" aria-hidden="true">
+                      <svg viewBox="0 0 16 16" className="size-[1.05em]">
+                        <path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
                     {need.label}
                   </span>
                 </label>

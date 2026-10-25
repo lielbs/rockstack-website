@@ -37,6 +37,8 @@ export function StrataStack({ layers }: { layers: Dictionary["strata"]["layers"]
       <IsoStack
         slabs={strataSlabs(layers)}
         gap={4}
+        sheen
+        pulses
         title={layers.map((l) => l.name).join(", ")}
         className="h-auto w-full max-w-[34rem] overflow-visible"
         slabProps={(i) => ({ className: "strata-slab", "data-on": String(i < count) })}

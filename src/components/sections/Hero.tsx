@@ -8,9 +8,9 @@ export function Hero({ dict }: { dict: Dictionary }) {
     <section
       id="top"
       aria-labelledby="hero-title"
-      className="hero-light frame relative isolate grid min-h-[calc(100svh-var(--header-h))] grid-cols-1 content-center items-center gap-x-8 gap-y-10 overflow-hidden bg-night py-[clamp(2.5rem,7vh,5rem)] text-center lg:grid-cols-12 lg:text-start"
+      className="hero-light frame relative isolate grid min-h-[calc(100svh-var(--header-h))] grid-cols-1 content-center items-center gap-x-8 gap-y-6 overflow-hidden bg-night py-[clamp(1.5rem,5vh,5rem)] lg:gap-y-10 text-center lg:grid-cols-12 lg:text-start"
     >
-      <div className="flex flex-col items-center lg:col-span-7 lg:items-start">
+      <div className="flex flex-col items-center lg:col-span-6 lg:items-start">
         <h1 id="hero-title" className="hero-title text-display font-bold">
           <span className="block whitespace-nowrap">{hero.lines[0]}</span>
           <span className="block whitespace-nowrap text-stone">{hero.lines[1]}</span>
@@ -20,9 +20,11 @@ export function Hero({ dict }: { dict: Dictionary }) {
           <a href="#contact" className="btn btn-primary">
             {hero.cta}
           </a>
-          <a href="#strata" className="link-quiet group inline-flex items-center gap-2 font-semibold text-ivory">
+          <a href="#strata" className="btn btn-ghost mb-3">
             {hero.secondary}
-            <ArrowDown />
+            <span className="ghost-icon" aria-hidden="true">
+              <ArrowDown />
+            </span>
           </a>
         </div>
         <p className="mt-10 text-small text-stone lg:mt-14">
@@ -32,8 +34,8 @@ export function Hero({ dict }: { dict: Dictionary }) {
         </p>
       </div>
 
-      <div className="h-[clamp(14rem,38svh,24rem)] w-full lg:col-span-5 lg:h-[min(64svh,38rem)]">
-        <HeroStack label="שלוש שכבות סלע בצבעי המותג: בסיס בהיר, שכבת ביניים אפורה ושכבה עליונה בכתום" />
+      <div className="order-first h-[clamp(12rem,30svh,20rem)] w-full lg:order-none lg:col-span-6 lg:h-[min(66svh,40rem)]">
+        <HeroStack label="שלוש שכבות: תשתית ואבטחה בבסיס, מערכות ונתונים באמצע, אפליקציות ו-AI למעלה" layers={hero.layers} />
       </div>
     </section>
   );
@@ -41,7 +43,7 @@ export function Hero({ dict }: { dict: Dictionary }) {
 
 function ArrowDown() {
   return (
-    <svg viewBox="0 0 20 20" className="size-5 transition-transform duration-200 group-hover:translate-y-0.5" aria-hidden="true">
+    <svg viewBox="0 0 20 20" className="size-5" aria-hidden="true">
       <path d="M10 3v13M4.5 10.5 10 16l5.5-5.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );

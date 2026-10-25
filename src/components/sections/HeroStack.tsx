@@ -11,31 +11,50 @@ const slabs: SlabSpec[] = [
   { w: 40, d: 30, h: 7, tone: "amber" },
 ];
 
+/** Opening amount the stack settles into after landing, so the layer labels show. */
+const REST = 0.22;
+
 /**
- * The logo as a three-slab monument. Slabs settle on load (CSS), then open into an
- * exploded view as the hero scrolls away, so the layers read as separate parts.
+ * The logo as a three-slab object. Slabs settle on load, part slightly so each layer
+ * is named, open further into an exploded view on scroll, and follow the pointer.
  */
-export function HeroStack({ label }: { label: string }) {
+export function HeroStack({ label, layers }: { label: string; layers: [string, string, string] }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let frame = 0;
+    let rest = 0;
     const update = () => {
       const rect = el.getBoundingClientRect();
-      const progress = Math.min(1, Math.max(0, -rect.top / (rect.height * 1.1)));
-      el.style.setProperty("--explode", progress.toFixed(3));
+      const progress = Math.min(1, Math.max(0, (window.innerHeight * 0.35 - rect.top) / (rect.height * 1.2)));
+      el.style.setProperty("--explode", (rest + progress * (1 - rest)).toFixed(3));
     };
     const onScroll = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(update);
     };
+    const settle = window.setTimeout(() => {
+      rest = REST;
+      update();
+    }, 1300);
+
+    // Pointer parallax on devices with a fine pointer
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    const onPointer = (e: PointerEvent) => {
+      el.style.setProperty("--px", ((e.clientX / window.innerWidth) * 2 - 1).toFixed(3));
+      el.style.setProperty("--py", ((e.clientY / window.innerHeight) * 2 - 1).toFixed(3));
+    };
+
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
+    if (fine) window.addEventListener("pointermove", onPointer, { passive: true });
     return () => {
       cancelAnimationFrame(frame);
+      window.clearTimeout(settle);
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("pointermove", onPointer);
     };
   }, []);
 
@@ -45,6 +64,9 @@ export function HeroStack({ label }: { label: string }) {
         slabs={slabs}
         gap={4.5}
         shadow
+        pulses
+        sheen
+        labels={layers}
         title={label}
         className="h-full max-h-full w-auto max-w-full overflow-visible"
         slabProps={(i) => ({

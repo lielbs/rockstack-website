@@ -18,7 +18,7 @@ export function About({ dict }: { dict: Dictionary }) {
     <section id="about" aria-labelledby="about-title" className="frame section-y bg-basalt">
       <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-12">
         <div className="lg:col-span-7">
-          <h2 id="about-title" data-reveal className="max-w-[18ch] text-title font-bold">
+          <h2 id="about-title" data-reveal="mask" className="max-w-[18ch] text-title font-bold">
             {about.heading}
           </h2>
           <p data-reveal style={{ "--i": 1 } as CSSProperties} className="mt-8 max-w-[52ch] text-statement">
@@ -40,11 +40,18 @@ export function About({ dict }: { dict: Dictionary }) {
           <li
             key={partner.role}
             data-reveal
+            data-spotlight
             style={{ "--i": i } as CSSProperties}
             className="flex flex-col rounded-[6px] bg-night p-7 sm:p-10"
           >
             {/* The lower layers for infrastructure, the upper layers for development */}
-            <IsoStack slabs={i === 0 ? infraSlabs : devSlabs} gap={4} className="h-20 w-auto self-start" />
+            <IsoStack
+              slabs={i === 0 ? infraSlabs : devSlabs}
+              gap={4}
+              sheen
+              className="h-20 w-auto self-start"
+              slabProps={(j) => ({ className: "mini-slab", style: { "--layer": j } as CSSProperties })}
+            />
             <h3 className="mt-8 text-statement font-bold">{partner.role}</h3>
             <ul className="mt-5 space-y-2.5 text-body text-stone">
               {partner.areas.map((area) => (

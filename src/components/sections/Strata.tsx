@@ -13,7 +13,7 @@ export function Strata({ dict }: { dict: Dictionary }) {
     <section id="strata" aria-labelledby="strata-title" className="frame section-y bg-night">
       <div className="grid grid-cols-1 gap-x-8 lg:grid-cols-12">
         <div className="lg:col-span-6">
-          <h2 id="strata-title" data-reveal className="text-title font-bold">
+          <h2 id="strata-title" data-reveal="mask" className="text-title font-bold">
             {strata.heading}
           </h2>
           <p data-reveal style={{ "--i": 1 } as CSSProperties} className="mt-6 max-w-[46ch] text-statement">
@@ -24,7 +24,12 @@ export function Strata({ dict }: { dict: Dictionary }) {
             {strata.layers.map((layer, i) => (
               <li key={layer.id} data-layer data-reveal className="flex flex-col justify-center py-12 lg:min-h-[62svh] lg:py-10">
                 {/* Phones: the stack so far, drawn beside each layer instead of a sticky overlay */}
-                <IsoStack slabs={slabs.slice(0, i + 1)} gap={4} className="mb-6 h-28 w-auto self-end lg:hidden" />
+                <IsoStack
+                  slabs={slabs.slice(0, i + 1)}
+                  gap={4}
+                  className="mb-6 h-32 w-auto self-end lg:hidden"
+                  slabProps={(j) => ({ className: "mini-slab", style: { "--layer": j } as CSSProperties })}
+                />
                 <h3 className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
                   <span className="text-title font-bold">{layer.name}</span>
                   <span className="latin text-small text-stone" dir="ltr">

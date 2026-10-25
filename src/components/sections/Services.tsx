@@ -11,7 +11,7 @@ export function Services({ dict }: { dict: Dictionary }) {
       <div className="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-28">
-            <h2 id="services-title" data-reveal className="text-title font-bold">
+            <h2 id="services-title" data-reveal="mask" className="text-title font-bold">
               {services.heading}
             </h2>
             <p data-reveal style={{ "--i": 1 } as CSSProperties} className="mt-6 max-w-[36ch] text-statement">
@@ -24,7 +24,7 @@ export function Services({ dict }: { dict: Dictionary }) {
         </div>
 
         <div className="lg:col-span-7 lg:col-start-6">
-          <div className="on-dark rounded-[6px] bg-basalt p-2.5 text-ivory sm:p-3.5">
+          <div data-reveal className="rack-sweep on-dark rounded-[6px] bg-basalt p-2.5 text-ivory sm:p-3.5">
             <ul className="flex flex-col gap-2.5 sm:gap-3.5">
               {services.groups.map((group, gi) => {
                 const foundation = gi === lastGroup;
@@ -32,6 +32,7 @@ export function Services({ dict }: { dict: Dictionary }) {
                   <li
                     key={group.latin}
                     data-reveal
+                    data-spotlight
                     style={{ "--i": gi } as CSSProperties}
                     className={`rounded-[4px] p-4 sm:p-6 ${foundation ? "bg-slate" : "bg-basalt-raised"}`}
                   >
@@ -42,14 +43,18 @@ export function Services({ dict }: { dict: Dictionary }) {
                       </span>
                     </div>
                     <ul className="mt-4 flex flex-col gap-2">
-                      {group.items.map((item) => (
+                      {group.items.map((item, ii) => (
                         <li
                           key={item.name}
                           className={`grid gap-x-6 gap-y-1 rounded-[3px] px-4 py-3.5 sm:grid-cols-[minmax(0,15rem)_1fr] sm:px-5 ${
                             foundation ? "bg-slate-deep" : "bg-night"
                           }`}
                         >
-                          <span className="font-semibold text-ivory">{item.name}</span>
+                          <span className="flex items-center gap-3 font-semibold text-ivory">
+                            {/* Status light: units power on in order as the rack comes into view */}
+                            <span aria-hidden="true" className="led" style={{ "--n": gi * 3 + ii } as CSSProperties} />
+                            {item.name}
+                          </span>
                           <span className={`text-small ${foundation ? "text-ivory" : "text-stone"} sm:text-body`}>{item.benefit}</span>
                         </li>
                       ))}

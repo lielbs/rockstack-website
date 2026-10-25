@@ -44,7 +44,7 @@ export function Header({ dict }: { dict: Dictionary }) {
           <ul className="flex items-center gap-8 text-small font-medium">
             {dict.nav.items.map((item) => (
               <li key={item.href}>
-                <a href={item.href} className="link-quiet py-2 text-stone no-underline hover:text-ivory">
+                <a href={item.href} className="nav-link">
                   {item.label}
                 </a>
               </li>
@@ -53,7 +53,7 @@ export function Header({ dict }: { dict: Dictionary }) {
         </nav>
 
         <div className="flex items-center gap-3">
-          <a href="#contact" className={`btn btn-primary ${compact ? "min-h-11" : ""} hidden sm:inline-flex`}>
+          <a href="#contact" className={`btn btn-primary btn-compact ${compact ? "min-h-11" : ""} hidden sm:inline-flex`}>
             {dict.nav.cta}
           </a>
           <button
@@ -61,9 +61,9 @@ export function Header({ dict }: { dict: Dictionary }) {
             onClick={openMenu}
             aria-label={dict.a11y.menuOpen}
             aria-haspopup="dialog"
-            className="grid size-12 place-items-center rounded-[var(--radius-slab)] bg-basalt-raised text-ivory transition-colors hover:bg-slate lg:hidden"
+            className="menu-trigger grid size-12 place-items-center rounded-[var(--radius-slab)] bg-basalt-raised text-ivory transition-colors hover:bg-slate lg:hidden"
           >
-            <svg viewBox="0 0 24 24" className="size-6" aria-hidden="true">
+            <svg viewBox="0 0 24 24" className="menu-icon size-6" aria-hidden="true">
               <rect x="7" y="5" width="10" height="3" rx="1" fill="#E8892B" />
               <rect x="5" y="10.5" width="14" height="3" rx="1" fill="currentColor" />
               <rect x="3" y="16" width="18" height="3" rx="1" fill="currentColor" />
@@ -109,7 +109,7 @@ export function Header({ dict }: { dict: Dictionary }) {
               ))}
             </ul>
           </nav>
-          <a href="#contact" onClick={closeMenu} className="btn btn-primary mb-6 w-full">
+          <a href="#contact" onClick={closeMenu} className="btn btn-primary btn-compact mb-6 w-full">
             {dict.nav.cta}
           </a>
           <p className="text-small text-stone">
