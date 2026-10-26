@@ -15,6 +15,7 @@ import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { Marquee } from "@/components/sections/Marquee";
+import { LabShowcase } from "@/components/sections/LabShowcase";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero dict={dict} />
         <Marquee items={dict.marquee} />
+        <LabShowcase />
         <Services dict={dict} />
         <Belief dict={dict} />
         <Strata dict={dict} />

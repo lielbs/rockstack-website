@@ -119,6 +119,12 @@ export function ContactForm({ contact }: { contact: Dictionary["contact"] }) {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      // FormSubmit answers 200 with { success: "false", message } when it rejects a submission
+      // (e.g. the inbox has not confirmed activation yet), so read the body before claiming success.
+      const result: unknown = await res.json().catch(() => null);
+      if (result && typeof result === "object" && "success" in result && String(result.success) === "false") {
+        throw new Error(`Relay rejected: ${"message" in result ? String(result.message) : "unknown"}`);
+      }
       setStatus("success");
       formRef.current?.reset();
       setSelected([]);

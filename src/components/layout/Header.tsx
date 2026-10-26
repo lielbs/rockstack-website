@@ -6,7 +6,10 @@ import type { Dictionary } from "@/content";
 
 export function Header({ dict }: { dict: Dictionary }) {
   const [compact, setCompact] = useState(false);
+  const [activeHref, setActiveHref] = useState("#top");
+  const [pressedHref, setPressedHref] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const pressTimerRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     let frame = 0;
@@ -22,17 +25,60 @@ export function Header({ dict }: { dict: Dictionary }) {
     };
   }, []);
 
+  useEffect(() => {
+    const hrefs = ["#top", ...dict.nav.items.map((item) => item.href), "#contact"];
+    const sections = hrefs
+      .map((href) => document.querySelector<HTMLElement>(href))
+      .filter((section): section is HTMLElement => Boolean(section));
+
+    if (!("IntersectionObserver" in window)) return;
+
+    const visible = new Map<string, number>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = (entry.target as HTMLElement).id;
+          if (entry.isIntersecting) visible.set(id, entry.intersectionRatio);
+          else visible.delete(id);
+        });
+
+        const current = [...visible.entries()].sort((a, b) => b[1] - a[1])[0];
+        if (current) setActiveHref(`#${current[0]}`);
+      },
+      { rootMargin: "-18% 0px -58% 0px", threshold: [0.05, 0.2, 0.45, 0.7] },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [dict.nav.items]);
+
+  useEffect(
+    () => () => {
+      if (pressTimerRef.current) window.clearTimeout(pressTimerRef.current);
+    },
+    [],
+  );
+
   const openMenu = () => dialogRef.current?.showModal();
   const closeMenu = () => dialogRef.current?.close();
+  const navigate = (href: string) => {
+    setActiveHref(href);
+    setPressedHref(href);
+    closeMenu();
+    if (pressTimerRef.current) window.clearTimeout(pressTimerRef.current);
+    pressTimerRef.current = window.setTimeout(() => setPressedHref(null), 560);
+  };
 
   return (
-    <header
-      className={`frame sticky top-0 z-40 bg-night/80 backdrop-blur-xl backdrop-saturate-150 transition-[padding] duration-300 ${
-        compact ? "py-2.5" : "py-4 md:py-5"
-      }`}
-    >
-      <div className="flex items-center justify-between gap-6">
-        <a href="#top" aria-label={dict.a11y.home} className="shrink-0 rounded-sm">
+    <header className={`v2-site-header frame sticky top-0 z-40 ${compact ? "is-compact" : ""}`}>
+      <div className="v2-route-progress" aria-hidden="true" />
+      <div className="v2-header-shell">
+        <a
+          href="#top"
+          aria-label={dict.a11y.home}
+          onClick={() => navigate("#top")}
+          className="v2-brand-link shrink-0 rounded-sm"
+        >
           <Logo
             tone="dark"
             markClassName={`transition-[width,height] duration-300 ${compact ? "size-8" : "size-9 md:size-10"}`}
@@ -41,32 +87,52 @@ export function Header({ dict }: { dict: Dictionary }) {
         </a>
 
         <nav aria-label="ראשי" className="hidden lg:block">
-          <ul className="flex items-center gap-8 text-small font-medium">
-            {dict.nav.items.map((item) => (
-              <li key={item.href}>
-                <a href={item.href} className="nav-link">
-                  {item.label}
-                </a>
-              </li>
-            ))}
+          <ul className="v2-nav">
+            {dict.nav.items.map((item, index) => {
+              const active = activeHref === item.href;
+              return (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    onClick={() => navigate(item.href)}
+                    aria-current={active ? "location" : undefined}
+                    className={`v2-nav-link ${active ? "is-active" : ""} ${pressedHref === item.href ? "is-pressed" : ""}`}
+                  >
+                    <span className="v2-nav-index" aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span>{item.label}</span>
+                    <i aria-hidden="true" />
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
         <div className="flex items-center gap-3">
-          <a href="#contact" className={`btn btn-primary btn-compact ${compact ? "min-h-11" : ""} hidden sm:inline-flex`}>
-            {dict.nav.cta}
+          <a
+            href="#contact"
+            onClick={() => navigate("#contact")}
+            className={`v2-header-cta hidden sm:inline-flex ${activeHref === "#contact" ? "is-active" : ""}`}
+          >
+            <span>{dict.nav.cta}</span>
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M5 10h10M11 6l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </a>
           <button
             type="button"
             onClick={openMenu}
             aria-label={dict.a11y.menuOpen}
             aria-haspopup="dialog"
-            className="menu-trigger grid size-12 place-items-center rounded-[var(--radius-slab)] bg-basalt-raised text-ivory transition-colors hover:bg-slate lg:hidden"
+            className="v2-menu-trigger lg:hidden"
           >
-            <svg viewBox="0 0 24 24" className="menu-icon size-6" aria-hidden="true">
-              <rect x="7" y="5" width="10" height="3" rx="1" fill="#E8892B" />
-              <rect x="5" y="10.5" width="14" height="3" rx="1" fill="currentColor" />
-              <rect x="3" y="16" width="18" height="3" rx="1" fill="currentColor" />
+            <span aria-hidden="true">MENU</span>
+            <svg viewBox="0 0 24 24" className="menu-icon size-5" aria-hidden="true">
+              <rect x="7" y="5" width="10" height="2" rx="1" fill="#7ee5ff" />
+              <rect x="5" y="11" width="14" height="2" rx="1" fill="currentColor" />
+              <rect x="3" y="17" width="18" height="2" rx="1" fill="currentColor" />
             </svg>
           </button>
         </div>
@@ -75,47 +141,45 @@ export function Header({ dict }: { dict: Dictionary }) {
       <dialog
         ref={dialogRef}
         aria-label="תפריט"
-        className="on-dark m-0 h-dvh max-h-none w-full max-w-none bg-basalt p-0 text-ivory backdrop:bg-basalt/60 open:flex"
-        onClick={(e) => {
-          if (e.target === e.currentTarget) closeMenu();
+        className="v2-menu-dialog on-dark m-0 h-dvh max-h-none w-full max-w-none p-0 text-ivory backdrop:bg-black/70 open:flex"
+        onClick={(event) => {
+          if (event.target === event.currentTarget) closeMenu();
         }}
       >
-        <div className="frame flex w-full flex-col overscroll-contain py-4">
+        <div className="v2-menu-panel frame flex w-full flex-col overscroll-contain py-5">
           <div className="flex items-center justify-between">
             <Logo tone="dark" markClassName="size-9" textClassName="text-[1.45rem]" />
-            <button
-              type="button"
-              onClick={closeMenu}
-              aria-label={dict.a11y.menuClose}
-              className="grid size-12 place-items-center rounded-[var(--radius-slab)] bg-basalt-raised text-ivory transition-colors hover:bg-slate"
-            >
-              <svg viewBox="0 0 24 24" className="size-6" aria-hidden="true">
-                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+            <button type="button" onClick={closeMenu} aria-label={dict.a11y.menuClose} className="v2-menu-close">
+              <span>CLOSE</span>
+              <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
               </svg>
             </button>
           </div>
           <nav aria-label="ראשי, נייד" className="mt-14 flex-1">
-            <ul className="flex flex-col gap-2">
-              {dict.nav.items.map((item) => (
+            <ul className="v2-mobile-nav">
+              {dict.nav.items.map((item, index) => (
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    onClick={closeMenu}
-                    className="block py-2 text-title font-bold transition-colors hover:text-amber"
+                    onClick={() => navigate(item.href)}
+                    aria-current={activeHref === item.href ? "location" : undefined}
+                    className={`v2-mobile-link ${activeHref === item.href ? "is-active" : ""}`}
                   >
-                    {item.label}
+                    <small>{String(index + 1).padStart(2, "0")}</small>
+                    <span>{item.label}</span>
+                    <b aria-hidden="true">↙</b>
                   </a>
                 </li>
               ))}
             </ul>
           </nav>
-          <a href="#contact" onClick={closeMenu} className="btn btn-primary btn-compact mb-6 w-full">
-            {dict.nav.cta}
+          <a href="#contact" onClick={() => navigate("#contact")} className="v2-mobile-cta">
+            <span>{dict.nav.cta}</span>
+            <b aria-hidden="true">↙</b>
           </a>
-          <p className="text-small text-stone">
-            <span className="latin" dir="ltr" translate="no">
-              {dict.descriptor}
-            </span>
+          <p className="mt-8 text-small text-stone">
+            <span className="latin" dir="ltr" translate="no">{dict.descriptor}</span>
           </p>
         </div>
       </dialog>

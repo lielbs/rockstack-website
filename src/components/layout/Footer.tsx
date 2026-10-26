@@ -16,7 +16,7 @@ export function Footer({ dict, home = "" }: { dict: Dictionary; home?: string })
             </span>
           </p>
         </div>
-        <div>
+        <div className="col-span-2 sm:col-span-1">
           <h2 className="text-small font-semibold text-ivory">{footer.contactTitle}</h2>
           {footer.contact.length ? (
             <ul className="mt-3 space-y-2 text-small text-stone">
