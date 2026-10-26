@@ -25,11 +25,11 @@ export default function Home() {
       <Header dict={dict} />
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero dict={dict} />
-        <Belief dict={dict} />
         <Marquee items={dict.marquee} />
+        <Services dict={dict} />
+        <Belief dict={dict} />
         <Strata dict={dict} />
         <Difference dict={dict} />
-        <Services dict={dict} />
         <Process dict={dict} />
         <Sectors dict={dict} />
         <About dict={dict} />
