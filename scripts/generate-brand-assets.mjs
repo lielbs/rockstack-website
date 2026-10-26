@@ -56,8 +56,8 @@ const ogHtml = `<!doctype html><html lang="he" dir="rtl"><head><meta charset="ut
   .band i{position:absolute;bottom:18px;left:72px;width:220px;height:12px;background:#E8892B;border-radius:3px 3px 0 0}
 </style></head><body>
   <div class="logo"><svg viewBox="0 0 96 96">${mark("#E8892B", "#A3A9B2", "#F4F2EE")}</svg><div class="word"><b>Rock</b><span>Stack</span></div></div>
-  <h1>×”×ª×•×›× ×” ×©×œ×›×,<br><span>×•×”×©×¨×ª×™× ×©×ž×ª×—×ª×™×”.</span></h1>
-  <p>Software Â· Infrastructure Â· AI</p>
+  <h1>אתרים, אפליקציות,<br><span>בוטים וסוכני AI.</span></h1>
+  <p>Web · Apps · Automation · AI Agents</p>
   <div class="band"><i></i></div>
 </body></html>`;
 

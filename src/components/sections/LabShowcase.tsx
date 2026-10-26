@@ -1,25 +1,25 @@
 import type { CSSProperties } from "react";
 
-/** Three illustrative product surfaces. They demonstrate capabilities, not client claims. */
+/** Three concept screens of project types we build. Sample data only, not client claims. */
 export function LabShowcase() {
   return (
     <section id="lab" aria-labelledby="lab-title" className="v2-lab frame section-y">
       <div className="grid gap-8 lg:grid-cols-12">
         <div className="lg:col-span-7">
-          <p className="v2-section-label" dir="ltr">SELECTED CAPABILITIES / CONCEPT SCREENS</p>
+          <p className="v2-section-label" dir="ltr">WORK SAMPLES / CONCEPT SCREENS</p>
           <h2 id="lab-title" data-reveal="words" className="v2-section-title mt-5">
-            לא רק מדברים על AI.<br />
-            <span>מתכננים איך הוא עובד במוצר.</span>
+            שלושה סוגי פרויקטים,<br />
+            <span>כמו שהם נראים על המסך.</span>
           </h2>
         </div>
         <p data-reveal style={{ "--i": 1 } as CSSProperties} className="v2-section-lead self-end lg:col-span-4 lg:col-start-9">
-          כל מסך כאן מייצג שכבה שאנחנו בונים: חוויית משתמש מדויקת, לוגיקה עסקית, חיבור למידע ותפעול אמין בפרודקשן.
+          סוכן AI שמטפל בפניות, אתר שמביא לידים ומעביר אותם אוטומטית ל-CRM, ודשבורד שמראה מה קורה בעסק בכל רגע.
         </p>
       </div>
 
       <div className="v2-showcase mt-16 lg:mt-24">
         <article data-reveal className="v2-demo v2-demo-agent">
-          <DemoHead index="01" title="AI AGENT" status="ACTIVE" />
+          <DemoHead index="01" title="AI AGENT · INBOX" status="ACTIVE" />
           <div className="v2-agent-body">
             <div className="v2-agent-sidebar">
               <span className="active">שיחה חדשה</span>
@@ -47,24 +47,43 @@ export function LabShowcase() {
         </article>
 
         <article data-reveal style={{ "--i": 1 } as CSSProperties} className="v2-demo v2-demo-web">
-          <DemoHead index="02" title="WEB EXPERIENCE" status="LIVE" />
-          <div className="v2-web-frame">
-            <div className="v2-web-nav"><b>your.brand</b><span>Work</span><span>About</span><i /></div>
-            <div className="v2-web-copy">
-              <small>BUILT TO CONVERT</small>
-              <strong>חוויה שאי אפשר<br />לגלול לידה.</strong>
-              <button type="button" tabIndex={-1}>Start a project ↖</button>
+          <DemoHead index="02" title="WEBSITE · LEAD FLOW" status="LIVE" />
+          <div className="v2-site">
+            <div className="v2-site-bar" dir="ltr" aria-hidden="true">
+              <i /><i /><i />
+              <span>yourbusiness.co.il</span>
             </div>
-            <div className="v2-web-shape" aria-hidden="true"><i /><i /><i /></div>
-            <div className="v2-cursor" aria-hidden="true">↖<span>explore</span></div>
+            <div className="v2-site-page">
+              <div className="v2-site-nav" aria-hidden="true">
+                <b>העסק שלכם</b>
+                <span>שירותים</span>
+                <span>מחירים</span>
+                <span>צור קשר</span>
+              </div>
+              <p className="v2-site-title">
+                קובעים פגישה
+                <br />
+                ב-30 שניות.
+              </p>
+              <div className="v2-site-form" aria-hidden="true">
+                <span>שם מלא</span>
+                <span dir="ltr">050-0000000</span>
+                <b>שליחה</b>
+              </div>
+            </div>
+            <ol className="v2-flow" aria-label="מה קורה אחרי שליחת הטופס">
+              <li style={{ "--n": 0 } as CSSProperties}><small dir="ltr">FORM</small>הטופס נשלח מהאתר</li>
+              <li style={{ "--n": 1 } as CSSProperties}><small dir="ltr">CRM</small>ליד חדש נפתח ב-CRM</li>
+              <li style={{ "--n": 2 } as CSSProperties}><small dir="ltr">WHATSAPP</small>הלקוח מקבל אישור</li>
+            </ol>
           </div>
         </article>
 
         <article data-reveal style={{ "--i": 2 } as CSSProperties} className="v2-demo v2-demo-ops">
-          <DemoHead index="03" title="OPERATIONS PLATFORM" status="SYNCED" />
+          <DemoHead index="03" title="OPERATIONS DASHBOARD" status="SYNCED" />
           <div className="v2-ops-grid" dir="ltr">
-            <div className="v2-kpi"><small>AUTOMATIONS</small><b>18</b><em>+4 this month</em></div>
-            <div className="v2-kpi"><small>TIME SAVED</small><b>126h</b><em>estimated</em></div>
+            <div className="v2-kpi"><small>OPEN LEADS</small><b>18</b><em>+4 this week</em></div>
+            <div className="v2-kpi"><small>AUTOMATED TASKS</small><b>126</b><em>this month</em></div>
             <div className="v2-chart">
               <span>WORKFLOW ACTIVITY</span>
               <svg viewBox="0 0 420 120" preserveAspectRatio="none" aria-hidden="true">

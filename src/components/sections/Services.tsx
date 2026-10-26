@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
 import { Words } from "@/components/ui/Words";
 
-const order = [2, 0, 1, 3];
+const order = [2, 0, 1, 3, 4];
 
 /** Capabilities presented as a product-system bento grid, with AI leading the story. */
 export function Services({ dict }: { dict: Dictionary }) {
@@ -13,8 +13,8 @@ export function Services({ dict }: { dict: Dictionary }) {
     <section id="services" aria-labelledby="services-title" className="ai-services frame section-y bg-night">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <p className="ai-section-kicker" dir="ltr">CAPABILITIES / 01</p>
-          <h2 id="services-title" data-reveal="words" className="mt-5 max-w-[12ch] text-title font-bold">
+          <p className="ai-section-kicker" dir="ltr">SERVICES / 01</p>
+          <h2 id="services-title" data-reveal="words" className="mt-5 max-w-[14ch] text-title font-bold">
             <Words text={services.heading} />
           </h2>
         </div>
