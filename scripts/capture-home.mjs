@@ -14,6 +14,7 @@ for (const view of [
   });
   await page.goto("http://127.0.0.1:4175", { waitUntil: "networkidle" });
   await page.screenshot({ path: `artifacts/home-${view.name}.png`, fullPage: true });
+  await page.screenshot({ path: `artifacts/home-${view.name}-top.jpg`, type: "jpeg", quality: 72, fullPage: false });
   await page.close();
 }
 
