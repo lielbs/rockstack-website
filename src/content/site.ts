@@ -7,8 +7,10 @@ export const site = {
   whatsapp: null as string | null,
   city: null as string | null,
   /**
-   * HTTPS endpoint owned by RockStack that accepts the contact JSON payload.
-   * It is injected at build time and no mail-provider secret reaches the browser.
+   * GitHub Pages is static, so the public form uses FormSubmit's AJAX relay.
+   * The repository variable can replace it later with a RockStack-owned Worker.
    */
-  contactEndpoint: process.env.NEXT_PUBLIC_CONTACT_ENDPOINT || "",
+  contactEndpoint:
+    process.env.NEXT_PUBLIC_CONTACT_ENDPOINT ||
+    "https://formsubmit.co/ajax/contact@rockstackds.com",
 };
