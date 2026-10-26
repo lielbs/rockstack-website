@@ -43,7 +43,7 @@ export function Header({ dict }: { dict: Dictionary }) {
         });
 
         const current = [...visible.entries()].sort((a, b) => b[1] - a[1])[0];
-        if (current) setActiveHref(\`#\${current[0]}\`);
+        if (current) setActiveHref(`#${current[0]}`);
       },
       { rootMargin: "-18% 0px -58% 0px", threshold: [0.05, 0.2, 0.45, 0.7] },
     );
@@ -70,7 +70,7 @@ export function Header({ dict }: { dict: Dictionary }) {
   };
 
   return (
-    <header className={\`v2-site-header frame sticky top-0 z-40 \${compact ? "is-compact" : ""}\`}>
+    <header className={`v2-site-header frame sticky top-0 z-40 ${compact ? "is-compact" : ""}`}>
       <div className="v2-route-progress" aria-hidden="true" />
       <div className="v2-header-shell">
         <a
@@ -81,8 +81,8 @@ export function Header({ dict }: { dict: Dictionary }) {
         >
           <Logo
             tone="dark"
-            markClassName={\`transition-[width,height] duration-300 \${compact ? "size-8" : "size-9 md:size-10"}\`}
-            textClassName={\`transition-[font-size] duration-300 \${compact ? "text-[1.35rem]" : "text-[1.45rem] md:text-[1.65rem]"}\`}
+            markClassName={`transition-[width,height] duration-300 ${compact ? "size-8" : "size-9 md:size-10"}`}
+            textClassName={`transition-[font-size] duration-300 ${compact ? "text-[1.35rem]" : "text-[1.45rem] md:text-[1.65rem]"}`}
           />
         </a>
 
@@ -96,7 +96,7 @@ export function Header({ dict }: { dict: Dictionary }) {
                     href={item.href}
                     onClick={() => navigate(item.href)}
                     aria-current={active ? "location" : undefined}
-                    className={\`v2-nav-link \${active ? "is-active" : ""} \${pressedHref === item.href ? "is-pressed" : ""}\`}
+                    className={`v2-nav-link ${active ? "is-active" : ""} ${pressedHref === item.href ? "is-pressed" : ""}`}
                   >
                     <span className="v2-nav-index" aria-hidden="true">
                       {String(index + 1).padStart(2, "0")}
@@ -114,7 +114,7 @@ export function Header({ dict }: { dict: Dictionary }) {
           <a
             href="#contact"
             onClick={() => navigate("#contact")}
-            className={\`v2-header-cta hidden sm:inline-flex \${activeHref === "#contact" ? "is-active" : ""}\`}
+            className={`v2-header-cta hidden sm:inline-flex ${activeHref === "#contact" ? "is-active" : ""}`}
           >
             <span>{dict.nav.cta}</span>
             <svg viewBox="0 0 20 20" aria-hidden="true">
@@ -164,7 +164,7 @@ export function Header({ dict }: { dict: Dictionary }) {
                     href={item.href}
                     onClick={() => navigate(item.href)}
                     aria-current={activeHref === item.href ? "location" : undefined}
-                    className={\`v2-mobile-link \${activeHref === item.href ? "is-active" : ""}\`}
+                    className={`v2-mobile-link ${activeHref === item.href ? "is-active" : ""}`}
                   >
                     <small>{String(index + 1).padStart(2, "0")}</small>
                     <span>{item.label}</span>
