@@ -11,7 +11,7 @@ export type Photo = {
 
 export type LayerId = "infra" | "security" | "systems" | "apps" | "ai";
 
-export type NeedId = "app" | "web" | "crm" | "ai" | "automation" | "data" | "infra" | "unsure";
+export type NeedId = "app" | "web" | "crm" | "ai" | "automation" | "data" | "infra" | "consult" | "unsure";
 
 export type Dictionary = {
   meta: { title: string; description: string; siteName: string };
@@ -27,6 +27,8 @@ export type Dictionary = {
     secondary: string;
     /** Names of the three hero slabs, base first. */
     layers: [string, string, string];
+    /** Short service index under the hero: a Latin code and a plain description. */
+    proof: { code: string; text: string }[];
   };
   belief: {
     heading: string;

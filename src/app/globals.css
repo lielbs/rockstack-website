@@ -1363,6 +1363,17 @@ html.lenis body {
   .ai-bento-3 {
     grid-column: span 5;
   }
+
+  /* Full-width consulting card: its two services sit side by side. */
+  .ai-bento-5 ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 2.5rem;
+  }
+
+  .ai-bento-5 ul > li {
+    margin-block-start: 0;
+  }
 }
 
 @media (max-width: 47.99rem) {
@@ -1468,17 +1479,6 @@ html.lenis body {
   0% { transform: scaleX(0.08); }
   55% { transform: scaleX(0.72); }
   100% { transform: scaleX(1); }
-}
-
-@keyframes v2-shape {
-  0%, 100% { rotate: -8deg; transform: translate3d(0, 0, 0); }
-  50% { rotate: 5deg; transform: translate3d(10px, -14px, 0); }
-}
-
-@keyframes v2-cursor {
-  0%, 15% { transform: translate(0, 0); }
-  48%, 62% { transform: translate(-84px, -72px); }
-  100% { transform: translate(-16px, -130px); }
 }
 
 @keyframes v2-chart-draw {
@@ -1639,17 +1639,17 @@ html.lenis body {
 
 .v2-proof {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   max-width: 42rem;
   border-top: 1px solid rgb(255 255 255 / 0.1);
 }
 
-.v2-proof > div {
+.v2-proof > li {
   padding: 1.15rem 0.9rem 0 0;
   border-inline-end: 1px solid rgb(255 255 255 / 0.08);
 }
 
-.v2-proof > div:last-child {
+.v2-proof > li:last-child {
   border-inline-end: 0;
 }
 
@@ -2191,115 +2191,126 @@ html.lenis body {
   animation: v2-progress 4.5s var(--ease-out-quart) infinite alternate;
 }
 
-.v2-web-frame {
-  position: relative;
-  min-height: 32rem;
-  overflow: hidden;
-  color: #121013;
-  background: #f0eee9;
+.v2-site {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
 }
 
-.v2-web-nav {
-  position: relative;
-  z-index: 2;
+.v2-site-bar {
   display: flex;
   align-items: center;
-  gap: 1.4rem;
-  padding: 1rem 1.2rem;
-  border-bottom: 1px solid rgb(0 0 0 / 0.08);
+  gap: 0.35rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.6rem 0.6rem 0 0;
+  background: #1a1f27;
+  color: #8f98a5;
   font-family: var(--font-space);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
 }
 
-.v2-web-nav b {
-  margin-inline-end: auto;
-}
-
-.v2-web-nav i {
-  width: 1.6rem;
-  height: 1.6rem;
+.v2-site-bar i {
+  width: 0.45rem;
+  height: 0.45rem;
   border-radius: 50%;
-  background: #111;
+  background: #3a414c;
 }
 
-.v2-web-copy {
-  position: relative;
-  z-index: 2;
-  padding: clamp(2rem, 5vw, 4rem) clamp(1.4rem, 4vw, 3rem);
-}
-
-.v2-web-copy small {
-  color: #d64e28;
-  font-family: var(--font-space);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-}
-
-.v2-web-copy strong {
-  display: block;
-  margin-top: 1.2rem;
-  font-size: clamp(2.2rem, 4vw, 4rem);
-  line-height: 0.96;
-  letter-spacing: -0.045em;
-}
-
-.v2-web-copy button {
-  margin-top: 2rem;
-  padding: 0.8rem 1rem;
+.v2-site-bar span {
+  margin-inline-start: 0.6rem;
+  padding: 0.25rem 0.7rem;
   border-radius: 999px;
-  color: white;
-  background: #121013;
+  background: rgb(255 255 255 / 0.05);
+}
+
+.v2-site-page {
+  margin-top: -1rem;
+  padding: 1.2rem 1.3rem 1.4rem;
+  border-radius: 0 0 0.6rem 0.6rem;
+  color: #14171c;
+  background: #f4f2ee;
+}
+
+.v2-site-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid rgb(0 0 0 / 0.08);
+  color: #5b6370;
+  font-size: 0.72rem;
+}
+
+.v2-site-nav b {
+  margin-inline-end: auto;
+  color: #14171c;
+  font-size: 0.8rem;
+}
+
+.v2-site-title {
+  margin-top: 1.6rem;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.v2-site-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0.45rem;
+  margin-top: 1.4rem;
+  font-size: 0.72rem;
+}
+
+.v2-site-form span {
+  padding: 0.65rem 0.7rem;
+  border: 1px solid rgb(0 0 0 / 0.12);
+  border-radius: 0.45rem;
+  color: #6b7380;
+  background: white;
+}
+
+.v2-site-form b {
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.45rem;
+  color: #14171c;
+  background: var(--color-amber);
+}
+
+.v2-flow {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.v2-flow li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid rgb(255 255 255 / 0.07);
+  border-radius: 0.55rem;
+  color: #c9ced6;
+  background: rgb(255 255 255 / 0.02);
+  font-size: 0.82rem;
+  animation: v2-flow-step 6s ease-in-out infinite;
+  animation-delay: calc(var(--n, 0) * 0.9s);
+}
+
+.v2-flow li small {
+  min-width: 4.8rem;
+  color: #7ee5ff;
   font-family: var(--font-space);
-  font-size: 0.7rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
 }
 
-.v2-web-shape {
-  position: absolute;
-  right: -4rem;
-  bottom: -5rem;
-  width: 19rem;
-  height: 19rem;
-  animation: v2-shape 9s ease-in-out infinite;
-}
-
-.v2-web-shape i {
-  position: absolute;
-  inset: 0;
-  border-radius: 38% 62% 57% 43% / 44% 45% 55% 56%;
-  background: #ff5e35;
-}
-
-.v2-web-shape i:nth-child(2) {
-  inset: 2.6rem;
-  background: #6b58ff;
-  rotate: 28deg;
-}
-
-.v2-web-shape i:nth-child(3) {
-  inset: 5.5rem;
-  background: #7ee5ff;
-  rotate: 52deg;
-}
-
-.v2-cursor {
-  position: absolute;
-  right: 5.5rem;
-  bottom: 5rem;
-  z-index: 4;
-  color: #111;
-  font-size: 1.4rem;
-  animation: v2-cursor 7s var(--ease-out-quart) infinite;
-}
-
-.v2-cursor span {
-  display: block;
-  margin-top: 0.2rem;
-  padding: 0.2rem 0.45rem;
-  border-radius: 0.25rem;
-  color: white;
-  background: #111;
-  font-family: var(--font-space);
-  font-size: 0.5rem;
+@keyframes v2-flow-step {
+  0%, 100% { border-color: rgb(255 255 255 / 0.07); background: rgb(255 255 255 / 0.02); }
+  12%, 40% { border-color: rgb(126 229 255 / 0.4); background: rgb(126 229 255 / 0.06); }
 }
 
 .v2-ops-grid {
@@ -2421,6 +2432,10 @@ html.lenis body {
     grid-column: span 5;
   }
 
+  .v2-site {
+    min-height: 31rem;
+  }
+
   .v2-demo-ops {
     grid-column: span 12;
   }
@@ -2446,7 +2461,7 @@ html.lenis body {
     grid-template-columns: 1fr;
   }
 
-  .v2-proof > div {
+  .v2-proof > li {
     display: grid;
     grid-template-columns: 3.5rem 1fr;
     align-items: center;
@@ -2495,7 +2510,7 @@ html.lenis body {
     display: none;
   }
 
-  .v2-web-nav span {
+  .v2-site-nav span {
     display: none;
   }
 
@@ -2523,8 +2538,7 @@ html.lenis body {
   .v2-float-card,
   .v2-thinking i,
   .v2-agent-progress span,
-  .v2-web-shape,
-  .v2-cursor,
+  .v2-flow li,
   .v2-chart-line,
   .v2-scroll-cue i::after {
     animation: none;

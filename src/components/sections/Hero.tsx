@@ -18,7 +18,7 @@ export function Hero({ dict }: { dict: Dictionary }) {
         <div className="lg:col-span-6">
           <div className="v2-kicker" dir="ltr">
             <span className="v2-live" />
-            <span>ROCKSTACK / AI PRODUCT STUDIO</span>
+            <span>ROCKSTACK / WEB · APPS · AUTOMATION · AI</span>
           </div>
 
           <h1 id="hero-title" className="v2-title mt-7">
@@ -34,16 +34,19 @@ export function Hero({ dict }: { dict: Dictionary }) {
               <span aria-hidden="true">↖</span>
             </a>
             <a href="#lab" className="v2-cta-secondary">
-              לראות את המערכות
+              {hero.secondary}
               <span aria-hidden="true">↓</span>
             </a>
           </div>
 
-          <div className="v2-proof mt-14">
-            <div><b>AI</b><span>סוכנים ותהליכים חכמים</span></div>
-            <div><b>WEB</b><span>אתרים ומערכות מוצר</span></div>
-            <div><b>OPS</b><span>פרודקשן, אבטחה וניטור</span></div>
-          </div>
+          <ul className="v2-proof mt-14">
+            {hero.proof.map((item) => (
+              <li key={item.code}>
+                <b dir="ltr">{item.code}</b>
+                <span>{item.text}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="lg:col-span-6 lg:col-start-7">
@@ -70,19 +73,19 @@ function SystemMap() {
   ];
 
   const nodes = [
-    { x: 94, y: 115, label: "UX" },
+    { x: 94, y: 115, label: "WEB" },
     { x: 558, y: 120, label: "DATA" },
-    { x: 86, y: 376, label: "WEB" },
+    { x: 86, y: 376, label: "APP" },
     { x: 564, y: 382, label: "API" },
     { x: 320, y: 48, label: "AI" },
     { x: 320, y: 472, label: "OPS" },
   ];
 
   return (
-    <div className="v2-system" aria-label="מפת מערכת המחברת AI, נתונים, ממשקים, API ותפעול">
+    <div className="v2-system" aria-label="מפת מערכת: אתר, אפליקציה, API, נתונים, AI ותפעול שמחוברים לליבה אחת">
       <div className="v2-system-bar">
         <span className="v2-system-dots" aria-hidden="true"><i /><i /><i /></span>
-        <span dir="ltr">PRODUCT SYSTEM / LIVE MAP</span>
+        <span dir="ltr">SYSTEM MAP</span>
         <span className="v2-system-state" dir="ltr">● RUNNING</span>
       </div>
 
@@ -120,7 +123,7 @@ function SystemMap() {
             <circle cx="320" cy="260" r="72" className="v2-core-ring" />
             <circle cx="320" cy="260" r="51" className="v2-core-ring v2-core-ring-two" />
             <text x="320" y="253" textAnchor="middle" className="v2-core-title">RS</text>
-            <text x="320" y="278" textAnchor="middle" className="v2-core-sub">INTELLIGENCE</text>
+            <text x="320" y="278" textAnchor="middle" className="v2-core-sub">STACK</text>
           </g>
 
           {nodes.map((node, i) => (

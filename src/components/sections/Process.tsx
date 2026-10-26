@@ -10,7 +10,7 @@ export function Process({ dict }: { dict: Dictionary }) {
     <section id="process" aria-labelledby="process-title" className="ai-process on-dark frame section-y bg-basalt text-ivory">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <p className="ai-section-kicker" dir="ltr">DELIVERY PIPELINE / 02</p>
+          <p className="ai-section-kicker" dir="ltr">DELIVERY PROCESS / 02</p>
           <h2 id="process-title" data-reveal="words" className="mt-5 max-w-[13ch] text-title font-bold">
             <Words text={process.heading} />
           </h2>
