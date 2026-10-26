@@ -83,7 +83,11 @@ export function ContactForm({ contact }: { contact: Dictionary["contact"] }) {
       email: String(data.get("email")).trim(),
       needs,
       message: String(data.get("message") ?? "").trim(),
-      source: "rockstack-website",
+      source: "rockstackds.com",
+      _subject: `פנייה חדשה מהאתר — ${String(data.get("name")).trim()}`,
+      _template: "table",
+      _replyto: String(data.get("email")).trim(),
+      _url: "https://rockstackds.com/#contact",
     };
 
     if (!site.contactEndpoint && site.email) {

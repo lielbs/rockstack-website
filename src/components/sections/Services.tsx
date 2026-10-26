@@ -1,74 +1,56 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
 import { Words } from "@/components/ui/Words";
-import { Photo } from "@/components/ui/Photo";
 
-/** Services drawn as a server rack: each group a chassis, each service one unit, the foundation at the bottom. */
+const order = [2, 0, 1, 3];
+
+/** Capabilities presented as a product-system bento grid, with AI leading the story. */
 export function Services({ dict }: { dict: Dictionary }) {
   const { services } = dict;
-  const lastGroup = services.groups.length - 1;
-  return (
-    <section id="services" aria-labelledby="services-title" className="frame section-y bg-night">
-      <div className="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-12">
-        <div className="lg:col-span-5">
-          <div className="lg:sticky lg:top-28">
-            <h2 id="services-title" data-reveal="words" className="text-title font-bold">
-              <Words text={services.heading} />
-            </h2>
-            <p data-reveal style={{ "--i": 1 } as CSSProperties} className="mt-6 max-w-[36ch] text-statement">
-              {services.intro}
-            </p>
-            <div data-reveal style={{ "--i": 2 } as CSSProperties} className="mt-10 hidden lg:block">
-              <Photo photo={services.photo} sizes="(min-width: 1024px) 36vw, 100vw" frameRatio={5 / 4} />
-            </div>
-          </div>
-        </div>
+  const groups = order.map((index) => services.groups[index]).filter(Boolean);
 
-        <div className="lg:col-span-7 lg:col-start-6">
-          <div data-reveal className="rack-sweep on-dark rounded-[6px] bg-basalt p-2.5 text-ivory sm:p-3.5">
-            <ul className="flex flex-col gap-2.5 sm:gap-3.5">
-              {services.groups.map((group, gi) => {
-                const foundation = gi === lastGroup;
-                return (
-                  <li
-                    key={group.latin}
-                    data-reveal
-                    data-spotlight
-                    style={{ "--i": gi } as CSSProperties}
-                    className={`rounded-[4px] p-4 sm:p-6 ${foundation ? "bg-slate" : "bg-basalt-raised"}`}
-                  >
-                    <div className="flex items-baseline justify-between gap-4">
-                      <h3 className="text-statement font-bold">{group.name}</h3>
-                      <span className={`latin text-small ${foundation ? "text-ivory" : "text-stone"}`} dir="ltr">
-                        {group.latin}
-                      </span>
-                    </div>
-                    <ul className="mt-4 flex flex-col gap-2">
-                      {group.items.map((item, ii) => (
-                        <li
-                          key={item.name}
-                          className={`grid gap-x-6 gap-y-1 rounded-[3px] px-4 py-3.5 sm:grid-cols-[minmax(0,15rem)_1fr] sm:px-5 ${
-                            foundation ? "bg-slate-deep" : "bg-night"
-                          }`}
-                        >
-                          <span className="flex items-center gap-3 font-semibold text-ivory">
-                            {/* Status light: units power on in order as the rack comes into view */}
-                            <span aria-hidden="true" className="led" style={{ "--n": gi * 3 + ii } as CSSProperties} />
-                            {item.name}
-                          </span>
-                          <span className={`text-small ${foundation ? "text-ivory" : "text-stone"} sm:text-body`}>{item.benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className="mt-8 lg:hidden">
-            <Photo photo={services.photo} sizes="100vw" frameRatio={5 / 4} />
-          </div>
+  return (
+    <section id="services" aria-labelledby="services-title" className="ai-services frame section-y bg-night">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <p className="ai-section-kicker" dir="ltr">CAPABILITIES / 01</p>
+          <h2 id="services-title" data-reveal="words" className="mt-5 max-w-[12ch] text-title font-bold">
+            <Words text={services.heading} />
+          </h2>
         </div>
+        <p data-reveal style={{ "--i": 1 } as CSSProperties} className="max-w-[42ch] self-end text-statement text-stone lg:col-span-5 lg:col-start-8">
+          {services.intro}
+        </p>
+      </div>
+
+      <div className="ai-bento mt-16 lg:mt-24">
+        {groups.map((group, gi) => (
+          <article
+            key={group.latin}
+            data-reveal
+            data-spotlight
+            style={{ "--i": gi } as CSSProperties}
+            className={`ai-bento-card ai-bento-${gi + 1}`}
+          >
+            <div className="ai-card-top">
+              <span className="ai-card-index" dir="ltr">0{gi + 1}</span>
+              <span className="ai-card-signal" aria-hidden="true" />
+              <span className="latin text-small text-stone" dir="ltr">{group.latin}</span>
+            </div>
+            <h3 className="mt-10 text-title font-bold">{group.name}</h3>
+            <ul className="mt-8 space-y-5">
+              {group.items.map((item) => (
+                <li key={item.name} className="ai-service-row">
+                  <span className="ai-service-icon" aria-hidden="true">↗</span>
+                  <span>
+                    <strong>{item.name}</strong>
+                    <small>{item.benefit}</small>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
       </div>
     </section>
   );
