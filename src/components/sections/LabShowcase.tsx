@@ -6,7 +6,7 @@ export function LabShowcase() {
     <section id="lab" aria-labelledby="lab-title" className="v2-lab frame section-y">
       <div className="grid gap-8 lg:grid-cols-12">
         <div className="lg:col-span-7">
-          <p className="v2-section-label" dir="ltr">SELECTED CAPABILITIES / LIVE PROTOTYPES</p>
+          <p className="v2-section-label" dir="ltr">SELECTED CAPABILITIES / CONCEPT SCREENS</p>
           <h2 id="lab-title" data-reveal="words" className="v2-section-title mt-5">
             לא רק מדברים על AI.<br />
             <span>מתכננים איך הוא עובד במוצר.</span>
@@ -62,7 +62,7 @@ export function LabShowcase() {
 
         <article data-reveal style={{ "--i": 2 } as CSSProperties} className="v2-demo v2-demo-ops">
           <DemoHead index="03" title="OPERATIONS PLATFORM" status="SYNCED" />
-          <div className="v2-ops-grid">
+          <div className="v2-ops-grid" dir="ltr">
             <div className="v2-kpi"><small>AUTOMATIONS</small><b>18</b><em>+4 this month</em></div>
             <div className="v2-kpi"><small>TIME SAVED</small><b>126h</b><em>estimated</em></div>
             <div className="v2-chart">
@@ -80,6 +80,7 @@ export function LabShowcase() {
           </div>
         </article>
       </div>
+      <p className="v2-lab-note mt-6 text-small text-stone">מסכי קונספט להמחשה. השמות והנתונים שמופיעים בהם הם לדוגמה בלבד.</p>
     </section>
   );
 }

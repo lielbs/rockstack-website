@@ -118,6 +118,11 @@ li {
   outline-color: var(--color-amber);
 }
 
+/* Sections receive programmatic focus after keyboard in-page navigation; no ring on the whole block. */
+section[tabindex="-1"]:focus {
+  outline: none;
+}
+
 /* ───────────────────────── Layout helpers ───────────────────────── */
 @utility frame {
   padding-inline: var(--margin);
@@ -2748,6 +2753,7 @@ html.is-routing .v2-route-progress {
   background: #f5f6f4;
   font-size: 0.8rem;
   font-weight: 700;
+  white-space: nowrap;
   box-shadow: 0 12px 32px rgb(0 0 0 / 0.22);
   transition:
     transform 240ms var(--ease-out-quart),
@@ -2819,6 +2825,23 @@ html.is-routing .v2-route-progress {
     border-color 200ms ease,
     background-color 200ms ease,
     transform 180ms var(--ease-out-quart);
+}
+
+@media (min-width: 64rem) {
+  .v2-menu-trigger {
+    display: none;
+  }
+}
+
+/* Small laptops: keep the six nav items and the CTA on one line. */
+@media (min-width: 64rem) and (max-width: 79.99rem) {
+  .v2-nav-link {
+    padding-inline: 0.55rem;
+  }
+
+  .v2-nav-index {
+    display: none;
+  }
 }
 
 .v2-menu-trigger > span,
@@ -2942,23 +2965,24 @@ html.is-routing .v2-route-progress {
   isolation: isolate;
 }
 
-.js .section-stage > * {
+/*
+ * Section entrance. Wrapped in :where() so it has zero specificity: a child's own
+ * opacity, transform or transition (decorative noise, beams, [data-reveal]) always wins.
+ * Decorative layers and reveal-managed children are left out entirely.
+ */
+:where(.js .section-stage > :not([aria-hidden="true"], [data-reveal])) {
   transition:
     opacity 760ms ease,
     transform 960ms var(--ease-out-quart),
     filter 760ms ease;
 }
 
-.js .section-stage:not(.section-visible) > * {
-  opacity: 0.3;
-  transform: translateY(34px) scale(0.992);
-  filter: saturate(0.72);
-}
-
-.js .section-stage.section-visible > * {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: saturate(1);
+@media (prefers-reduced-motion: no-preference) {
+  :where(.js .section-stage:not(.section-visible) > :not([aria-hidden="true"], [data-reveal])) {
+    opacity: 0.3;
+    transform: translateY(34px) scale(0.992);
+    filter: saturate(0.72);
+  }
 }
 
 .section-stage + .section-stage {
@@ -3010,15 +3034,8 @@ html.is-routing .v2-route-progress {
   .v2-nav-link,
   .v2-header-cta,
   .v2-menu-trigger,
-  .v2-mobile-link,
-  .section-stage > * {
+  .v2-mobile-link {
     transition-duration: 1ms !important;
-  }
-
-  .js .section-stage:not(.section-visible) > * {
-    opacity: 1;
-    transform: none;
-    filter: none;
   }
 
   .section-stage + .section-stage::after {

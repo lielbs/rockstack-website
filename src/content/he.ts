@@ -16,9 +16,10 @@ export const he: Dictionary = {
   },
   nav: {
     items: [
+      { href: "#lab", label: "הדגמות" },
+      { href: "#services", label: "שירותים" },
       { href: "#belief", label: "למה אנחנו" },
       { href: "#strata", label: "מה אנחנו עושים" },
-      { href: "#services", label: "שירותים" },
       { href: "#process", label: "איך עובדים" },
       { href: "#about", label: "מי אנחנו" },
     ],

@@ -52,6 +52,27 @@ export function RevealRoot() {
       sections.forEach((section) => section.classList.add("section-visible"));
     }
 
+    // A fast jump (End key, in-page link, scrollbar drag) can carry elements past the viewport
+    // between two observer checks, so they never "intersect". Reveal anything already scrolled past.
+    let pending = [...items, ...sections];
+    let passFrame = 0;
+    const revealPassed = () => {
+      passFrame = 0;
+      const line = window.innerHeight;
+      pending = pending.filter((element) => {
+        if (element.getBoundingClientRect().top >= line) return true;
+        element.classList.add(element.matches("[data-reveal]") ? "is-in" : "section-visible");
+        revealObserver?.unobserve(element);
+        sectionObserver?.unobserve(element);
+        return false;
+      });
+      if (!pending.length) window.removeEventListener("scroll", onScrollPass);
+    };
+    const onScrollPass = () => {
+      if (!passFrame) passFrame = window.requestAnimationFrame(revealPassed);
+    };
+    window.addEventListener("scroll", onScrollPass, { passive: true });
+
     const onMove = (event: PointerEvent) => {
       const panel = (event.target as Element | null)?.closest<HTMLElement>("[data-spotlight]");
       if (!panel) return;
@@ -95,6 +116,8 @@ export function RevealRoot() {
       revealObserver?.disconnect();
       sectionObserver?.disconnect();
       window.clearTimeout(routeTimer);
+      window.cancelAnimationFrame(passFrame);
+      window.removeEventListener("scroll", onScrollPass);
       document.documentElement.classList.remove("is-routing");
       document.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerdown", onDown);
