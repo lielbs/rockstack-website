@@ -1,12 +1,14 @@
 import type { CSSProperties } from "react";
+import type { Dictionary } from "@/content";
+import { FlowMark } from "@/components/layout/FlowMark";
 
 /** Three concept screens of project types we build. Sample data only, not client claims. */
-export function LabShowcase() {
+export function LabShowcase({ dict }: { dict: Dictionary }) {
   return (
     <section id="lab" aria-labelledby="lab-title" className="v2-lab frame section-y">
       <div className="grid gap-8 lg:grid-cols-12">
         <div className="lg:col-span-7">
-          <p className="v2-section-label" dir="ltr">WORK SAMPLES / CONCEPT SCREENS</p>
+          <FlowMark dict={dict} id="lab" />
           <h2 id="lab-title" data-reveal="words" className="v2-section-title mt-5">
             שלושה סוגי פרויקטים,<br />
             <span>כמו שהם נראים על המסך.</span>

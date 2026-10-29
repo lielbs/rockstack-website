@@ -17,6 +17,7 @@ import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { Marquee } from "@/components/sections/Marquee";
 import { LabShowcase } from "@/components/sections/LabShowcase";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { FlowRail } from "@/components/layout/FlowMark";
 
 export default function Home() {
   const dict = getDictionary(defaultLocale);
@@ -27,15 +28,18 @@ export default function Home() {
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero dict={dict} />
         <Marquee items={dict.marquee} />
-        <LabShowcase />
-        <Services dict={dict} />
-        <Belief dict={dict} />
-        <Strata dict={dict} />
-        <Difference dict={dict} />
-        <Process dict={dict} />
-        <Sectors dict={dict} />
-        <About dict={dict} />
-        <Contact dict={dict} />
+        <div className="flow">
+          <FlowRail />
+          <LabShowcase dict={dict} />
+          <Services dict={dict} />
+          <Belief dict={dict} />
+          <Strata dict={dict} />
+          <Difference dict={dict} />
+          <Process dict={dict} />
+          <Sectors dict={dict} />
+          <About dict={dict} />
+          <Contact dict={dict} />
+        </div>
       </main>
       <Footer dict={dict} />
       <RevealRoot />

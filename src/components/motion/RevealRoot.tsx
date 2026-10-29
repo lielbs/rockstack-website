@@ -5,13 +5,14 @@ import { useEffect } from "react";
 /**
  * Page-wide interaction layer:
  * - reveals content and section stages as they enter the viewport
+ * - fills the page-long flow rail with scroll progress
  * - drives pointer spotlights on interactive panels
  * - adds tactile press feedback and a short route-transition pulse
  */
 export function RevealRoot() {
   useEffect(() => {
     const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
-    const sections = document.querySelectorAll<HTMLElement>("main > section");
+    const sections = document.querySelectorAll<HTMLElement>("main section");
     let revealObserver: IntersectionObserver | undefined;
     let sectionObserver: IntersectionObserver | undefined;
     let routeTimer = 0;
@@ -73,6 +74,27 @@ export function RevealRoot() {
     };
     window.addEventListener("scroll", onScrollPass, { passive: true });
 
+    // Flow rail: fill up to the middle of the viewport, with a light at the tip.
+    const rail = document.querySelector<HTMLElement>(".flow-rail");
+    let railFrame = 0;
+    const updateRail = () => {
+      railFrame = 0;
+      if (!rail) return;
+      const rect = rail.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, (window.innerHeight * 0.5 - rect.top) / rect.height));
+      rail.style.setProperty("--flow", progress.toFixed(4));
+      rail.style.setProperty("--flow-y", `${(progress * rect.height).toFixed(1)}px`);
+      rail.style.setProperty("--flow-on", progress > 0 && progress < 1 ? "1" : "0");
+    };
+    const onRailScroll = () => {
+      if (!railFrame) railFrame = window.requestAnimationFrame(updateRail);
+    };
+    if (rail) {
+      updateRail();
+      window.addEventListener("scroll", onRailScroll, { passive: true });
+      window.addEventListener("resize", onRailScroll, { passive: true });
+    }
+
     const onMove = (event: PointerEvent) => {
       const panel = (event.target as Element | null)?.closest<HTMLElement>("[data-spotlight]");
       if (!panel) return;
@@ -117,6 +139,9 @@ export function RevealRoot() {
       sectionObserver?.disconnect();
       window.clearTimeout(routeTimer);
       window.cancelAnimationFrame(passFrame);
+      window.cancelAnimationFrame(railFrame);
+      window.removeEventListener("scroll", onRailScroll);
+      window.removeEventListener("resize", onRailScroll);
       window.removeEventListener("scroll", onScrollPass);
       document.documentElement.classList.remove("is-routing");
       document.removeEventListener("pointermove", onMove);

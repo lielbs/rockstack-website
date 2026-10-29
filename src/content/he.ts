@@ -26,6 +26,17 @@ export const he: Dictionary = {
     cta: "שיחת היכרות",
   },
   descriptor: "Web · Apps · Automation · AI Agents",
+  chapters: [
+    { id: "lab", label: "דוגמאות" },
+    { id: "services", label: "שירותים" },
+    { id: "belief", label: "מה שקורה אחרי הדמו" },
+    { id: "strata", label: "השכבות" },
+    { id: "difference", label: "פיתוח ותשתיות יחד" },
+    { id: "process", label: "איך עובדים" },
+    { id: "sectors", label: "ניסיון" },
+    { id: "about", label: "מי אנחנו" },
+    { id: "contact", label: "יצירת קשר" },
+  ],
   marquee: ["אתרים", "אפליקציות", "מערכות ניהול", "CRM", "בוטים", "סוכני AI", "אוטומציות", "אינטגרציות API", "ענן ושרתים", "ייעוץ טכנולוגי"],
   hero: {
     lines: ["אתרים, אפליקציות,", "בוטים וסוכני AI."],

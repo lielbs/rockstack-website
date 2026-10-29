@@ -1,13 +1,15 @@
 import type { Dictionary } from "@/content";
 import { Words } from "@/components/ui/Words";
+import { FlowMark } from "@/components/layout/FlowMark";
 import { MonitorPanel } from "./MonitorPanel";
 
 export function Belief({ dict }: { dict: Dictionary }) {
   const { belief } = dict;
   return (
-    <section id="belief" aria-labelledby="belief-title" className="on-dark grain frame section-y bg-basalt text-ivory">
+    <section id="belief" aria-labelledby="belief-title" className="on-dark frame section-y text-ivory">
       <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-12">
         <div className="lg:col-span-7">
+          <FlowMark dict={dict} id="belief" className="mb-6" />
           <h2 id="belief-title" data-reveal="words" className="max-w-[18ch] text-title font-bold">
             <Words text={belief.heading} />
           </h2>

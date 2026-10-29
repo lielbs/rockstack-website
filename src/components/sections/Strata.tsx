@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { IsoStack } from "@/components/brand/IsoStack";
 import type { Dictionary } from "@/content";
 import { Words } from "@/components/ui/Words";
+import { FlowMark } from "@/components/layout/FlowMark";
 import { strataSlabs } from "./strata-slabs";
 import { StrataStack } from "./StrataStack";
 
@@ -11,9 +12,10 @@ export function Strata({ dict }: { dict: Dictionary }) {
   const slabs = strataSlabs(strata.layers);
 
   return (
-    <section id="strata" aria-labelledby="strata-title" className="frame section-y bg-night">
+    <section id="strata" aria-labelledby="strata-title" className="frame section-y">
       <div className="grid grid-cols-1 gap-x-8 lg:grid-cols-12">
         <div className="lg:col-span-6">
+          <FlowMark dict={dict} id="strata" className="mb-6" />
           <h2 id="strata-title" data-reveal="words" className="text-title font-bold">
             <Words text={strata.heading} />
           </h2>

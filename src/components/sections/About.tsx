@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
 import { Words } from "@/components/ui/Words";
+import { FlowMark } from "@/components/layout/FlowMark";
 import { IsoStack } from "@/components/brand/IsoStack";
 import type { SlabSpec } from "@/lib/iso";
 
@@ -16,9 +17,10 @@ const devSlabs: SlabSpec[] = [
 export function About({ dict }: { dict: Dictionary }) {
   const { about } = dict;
   return (
-    <section id="about" aria-labelledby="about-title" className="frame section-y bg-basalt">
+    <section id="about" aria-labelledby="about-title" className="frame section-y">
       <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-12">
         <div className="lg:col-span-7">
+          <FlowMark dict={dict} id="about" className="mb-6" />
           <h2 id="about-title" data-reveal="words" className="max-w-[18ch] text-title font-bold">
             <Words text={about.heading} />
           </h2>
