@@ -18,6 +18,8 @@ export type Dictionary = {
   a11y: { skip: string; menuOpen: string; menuClose: string; home: string };
   nav: { items: { href: string; label: string }[]; cta: string };
   descriptor: string;
+  /** The page as one numbered story: each chapter's section id and its short label. */
+  chapters: { id: string; label: string }[];
   /** Words for the moving band between sections. */
   marquee: string[];
   hero: {

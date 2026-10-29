@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
 import { Words } from "@/components/ui/Words";
+import { FlowMark } from "@/components/layout/FlowMark";
 import { site } from "@/content/site";
 import { ContactForm } from "@/components/contact/ContactForm";
 
@@ -11,7 +12,8 @@ export function Contact({ dict }: { dict: Dictionary }) {
   const hasDirectContact = Boolean(whatsappHref || emailHref);
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="on-dark grain frame section-y bg-night text-ivory">
+    <section id="contact" aria-labelledby="contact-title" className="on-dark frame section-y text-ivory">
+      <FlowMark dict={dict} id="contact" className="mb-6" />
       <h2 id="contact-title" data-reveal="words" className="max-w-[16ch] text-title font-bold">
         <Words text={contact.heading} />
       </h2>

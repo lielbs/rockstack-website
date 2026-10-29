@@ -1,16 +1,17 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
 import { Words } from "@/components/ui/Words";
+import { FlowMark } from "@/components/layout/FlowMark";
 
 /** Delivery pipeline: clear, technical and intentionally free of decorative metaphors. */
 export function Process({ dict }: { dict: Dictionary }) {
   const { process } = dict;
 
   return (
-    <section id="process" aria-labelledby="process-title" className="ai-process on-dark frame section-y bg-basalt text-ivory">
+    <section id="process" aria-labelledby="process-title" className="ai-process on-dark frame section-y text-ivory">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <p className="ai-section-kicker" dir="ltr">DELIVERY PROCESS / 02</p>
+          <FlowMark dict={dict} id="process" />
           <h2 id="process-title" data-reveal="words" className="mt-5 max-w-[13ch] text-title font-bold">
             <Words text={process.heading} />
           </h2>

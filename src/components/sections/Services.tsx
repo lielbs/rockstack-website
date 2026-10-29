@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
 import { Words } from "@/components/ui/Words";
+import { FlowMark } from "@/components/layout/FlowMark";
 
 const order = [2, 0, 1, 3, 4];
 
@@ -10,10 +11,10 @@ export function Services({ dict }: { dict: Dictionary }) {
   const groups = order.map((index) => services.groups[index]).filter(Boolean);
 
   return (
-    <section id="services" aria-labelledby="services-title" className="ai-services frame section-y bg-night">
+    <section id="services" aria-labelledby="services-title" className="ai-services frame section-y">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <p className="ai-section-kicker" dir="ltr">SERVICES / 01</p>
+          <FlowMark dict={dict} id="services" />
           <h2 id="services-title" data-reveal="words" className="mt-5 max-w-[14ch] text-title font-bold">
             <Words text={services.heading} />
           </h2>

@@ -11,7 +11,7 @@ export function Marquee({ items }: { items: string[] }) {
     </ul>
   );
   return (
-    <section aria-label="תחומי עבודה" className="marquee overflow-hidden bg-night py-10 sm:py-14">
+    <section aria-label="תחומי עבודה" className="marquee overflow-hidden py-10 sm:py-14">
       <div className="marquee-track">
         {run(false)}
         {run(true)}

@@ -1,12 +1,14 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
 import { Words } from "@/components/ui/Words";
+import { FlowMark } from "@/components/layout/FlowMark";
 import { Photo } from "@/components/ui/Photo";
 
 export function Difference({ dict }: { dict: Dictionary }) {
   const { difference } = dict;
   return (
-    <section id="difference" aria-labelledby="difference-title" className="frame section-y bg-basalt">
+    <section id="difference" aria-labelledby="difference-title" className="frame section-y">
+      <FlowMark dict={dict} id="difference" className="mb-6" />
       <h2 id="difference-title" data-reveal="words" className="max-w-[16ch] text-title font-bold">
         <Words text={difference.heading} />
       </h2>

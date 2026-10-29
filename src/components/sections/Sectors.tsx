@@ -1,13 +1,15 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/content";
 import { Words } from "@/components/ui/Words";
+import { FlowMark } from "@/components/layout/FlowMark";
 import { Photo } from "@/components/ui/Photo";
 import { SectorNames } from "./SectorNames";
 
 export function Sectors({ dict }: { dict: Dictionary }) {
   const { sectors } = dict;
   return (
-    <section id="sectors" aria-labelledby="sectors-title" className="frame section-y bg-night">
+    <section id="sectors" aria-labelledby="sectors-title" className="frame section-y">
+      <FlowMark dict={dict} id="sectors" className="mb-6" />
       <h2 id="sectors-title" data-reveal="words" className="max-w-[20ch] text-title font-bold">
         <Words text={sectors.heading} />
       </h2>
