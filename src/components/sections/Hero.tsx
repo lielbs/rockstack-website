@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/content";
+import { SignalField } from "@/components/motion/SignalField";
 
 /** Cinematic opening with a continuously active AI systems map. */
 export function Hero({ dict }: { dict: Dictionary }) {
@@ -82,7 +83,7 @@ function SystemMap() {
   ];
 
   return (
-    <div className="v2-system" aria-label="מפת מערכת: אתר, אפליקציה, API, נתונים, AI ותפעול שמחוברים לליבה אחת">
+    <div className="v2-system v3-reactive-surface" data-tilt data-spotlight aria-label="מפת מערכת: אתר, אפליקציה, API, נתונים, AI ותפעול שמחוברים לליבה אחת">
       <div className="v2-system-bar">
         <span className="v2-system-dots" aria-hidden="true"><i /><i /><i /></span>
         <span dir="ltr">SYSTEM MAP</span>
@@ -91,6 +92,7 @@ function SystemMap() {
 
       <div className="v2-map">
         <div className="v2-map-grid" aria-hidden="true" />
+        <SignalField />
         <svg viewBox="0 0 640 520" role="img" aria-hidden="true">
           <defs>
             <radialGradient id="core-fill">

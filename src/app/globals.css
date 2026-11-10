@@ -3117,3 +3117,275 @@ html.is-routing .v2-route-progress {
     transition: none;
   }
 }
+
+
+/* Interactive studio upgrade v3 */
+:root {
+  --cursor-x: -240px;
+  --cursor-y: -240px;
+}
+
+@keyframes v3-title-arrive {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(0.42em);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes v3-surface-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(0.975);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes v3-proof-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.v3-pointer-aura {
+  position: fixed;
+  top: var(--cursor-y);
+  left: var(--cursor-x);
+  z-index: 2;
+  width: clamp(14rem, 24vw, 24rem);
+  aspect-ratio: 1;
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: 0.16;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle, rgb(126 229 255 / 0.3) 0, rgb(157 140 255 / 0.12) 30%, transparent 68%);
+  filter: blur(16px);
+  mix-blend-mode: screen;
+  will-change: top, left;
+}
+
+.v2-title > span {
+  animation: v3-title-arrive 820ms var(--ease-out-quart) both;
+}
+
+.v2-title > span:nth-child(2) {
+  animation-delay: 110ms;
+}
+
+.v2-lead,
+.v2-hero .v2-kicker {
+  animation: v3-title-arrive 720ms var(--ease-out-quart) both;
+}
+
+.v2-hero .v2-kicker {
+  animation-delay: 60ms;
+}
+
+.v2-lead {
+  animation-delay: 190ms;
+}
+
+.v2-system {
+  animation: v3-surface-arrive 980ms var(--ease-out-quart) 140ms both;
+}
+
+.v2-proof > li {
+  animation: v3-proof-arrive 620ms var(--ease-out-quart) both;
+  animation-delay: calc(300ms + var(--proof-order, 0) * 80ms);
+}
+
+.v2-proof > li:nth-child(1) { --proof-order: 0; }
+.v2-proof > li:nth-child(2) { --proof-order: 1; }
+.v2-proof > li:nth-child(3) { --proof-order: 2; }
+.v2-proof > li:nth-child(4) { --proof-order: 3; }
+
+.v3-signal-field {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.82;
+  mask-image: radial-gradient(ellipse at center, black 0%, black 58%, transparent 92%);
+}
+
+.v2-map-grid {
+  z-index: 0;
+}
+
+.v2-map > svg {
+  z-index: 2;
+}
+
+.v2-map .v2-float-card {
+  z-index: 6;
+}
+
+.v3-reactive-surface {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --tilt-lift: 0px;
+  --mx: 50%;
+  --my: 50%;
+  transform:
+    perspective(1300px)
+    translateY(var(--tilt-lift))
+    rotateX(var(--tilt-x))
+    rotateY(var(--tilt-y));
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition:
+    transform 520ms var(--ease-out-quart),
+    border-color 320ms ease,
+    box-shadow 520ms var(--ease-out-quart);
+}
+
+.v3-reactive-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  background:
+    radial-gradient(
+      30rem circle at var(--mx) var(--my),
+      rgb(126 229 255 / 0.13),
+      rgb(157 140 255 / 0.045) 34%,
+      transparent 68%
+    );
+  mix-blend-mode: screen;
+  transition: opacity 360ms ease;
+}
+
+.v3-reactive-surface.is-engaged {
+  border-color: rgb(126 229 255 / 0.2);
+  box-shadow:
+    0 44px 110px rgb(0 0 0 / 0.42),
+    0 0 0 1px rgb(126 229 255 / 0.035),
+    inset 0 1px 0 rgb(255 255 255 / 0.08);
+  transition-duration: 120ms, 220ms, 280ms;
+}
+
+.v3-reactive-surface.is-engaged::before {
+  opacity: 1;
+}
+
+.v2-demo.v3-reactive-surface > * {
+  position: relative;
+  z-index: 2;
+}
+
+.v2-demo.v3-reactive-surface.is-in {
+  transform:
+    perspective(1300px)
+    translateY(var(--tilt-lift))
+    rotateX(var(--tilt-x))
+    rotateY(var(--tilt-y));
+}
+
+.v2-system.v3-reactive-surface {
+  transform-origin: center;
+}
+
+.v2-system.v3-reactive-surface .v2-map,
+.v2-demo.v3-reactive-surface > * {
+  transform: translateZ(16px);
+}
+
+.v2-system.v3-reactive-surface .v2-system-bar,
+.v2-system.v3-reactive-surface .v2-system-footer {
+  transform: translateZ(22px);
+}
+
+.v2-demo-head::after {
+  content: "";
+  width: 2.75rem;
+  height: 1px;
+  margin-inline-start: 0.35rem;
+  opacity: 0.6;
+  background: linear-gradient(90deg, transparent, #7ee5ff, transparent);
+  box-shadow: 0 0 10px rgb(126 229 255 / 0.45);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .v2-cta-primary,
+  .v2-header-cta,
+  .v2-nav-link {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .v2-cta-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0;
+    background: linear-gradient(110deg, transparent 15%, rgb(126 229 255 / 0.38), transparent 78%);
+    transform: translateX(70%);
+    transition: opacity 260ms ease, transform 620ms var(--ease-out-quart);
+  }
+
+  .v2-cta-primary:hover::before {
+    opacity: 1;
+    transform: translateX(-70%);
+  }
+}
+
+@media (pointer: coarse) {
+  .v3-pointer-aura {
+    display: none;
+  }
+
+  .v3-reactive-surface,
+  .v2-demo.v3-reactive-surface.is-in {
+    transform: none;
+    will-change: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v3-pointer-aura,
+  .v3-signal-field {
+    opacity: 0.08;
+  }
+
+  .v2-title > span,
+  .v2-lead,
+  .v2-hero .v2-kicker,
+  .v2-system,
+  .v2-proof > li {
+    animation: none;
+  }
+
+  .v3-reactive-surface,
+  .v2-demo.v3-reactive-surface.is-in {
+    transform: none;
+    transition: border-color 180ms ease;
+    will-change: auto;
+  }
+
+  .v3-reactive-surface::before {
+    display: none;
+  }
+}
