@@ -3316,7 +3316,6 @@ html.is-routing .v2-route-progress {
   transform: translateZ(22px);
 }
 
-.v2-system-bar::after,
 .v2-demo-head::after {
   content: "";
   width: 2.75rem;
