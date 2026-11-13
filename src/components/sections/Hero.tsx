@@ -1,44 +1,58 @@
 import type { Dictionary } from "@/content";
 
-/** Lightweight editorial opening: strong hierarchy, no WebGL, canvas or continuous animation. */
+const terminalRows = [
+  ["01", "interface", "web · apps · product"],
+  ["02", "intelligence", "agents · automation · ai"],
+  ["03", "systems", "api · data · workflows"],
+  ["04", "foundation", "cloud · security · ops"],
+] as const;
+
+const slices = [
+  { word: "RO", tone: "ink" },
+  { word: "CK", tone: "ivory" },
+  { word: "ST", tone: "amber" },
+  { word: "ACK", tone: "ink" },
+  { word: "BU", tone: "ivory" },
+  { word: "ILD", tone: "ink" },
+  { word: "SH", tone: "amber" },
+  { word: "IP", tone: "ivory" },
+] as const;
+
+/** Reference-led editorial opening: fragmented type reveals the engineered system beneath. */
 export function Hero({ dict }: { dict: Dictionary }) {
   const { hero } = dict;
 
   return (
-    <section
-      id="top"
-      aria-labelledby="hero-title"
-      className="v4-hero frame relative isolate min-h-[calc(100svh-var(--header-h))] overflow-hidden"
-    >
-      <div className="v4-hero-grid" aria-hidden="true" />
+    <section id="top" aria-labelledby="hero-title" className="v5-hero">
+      <div className="v5-hero-grid" aria-hidden="true" />
 
-      <div className="relative z-10 grid min-h-[calc(100svh-var(--header-h))] grid-cols-1 items-center gap-12 py-14 lg:grid-cols-12 lg:gap-10 lg:py-16">
-        <div className="v4-hero-copy lg:col-span-6">
-          <div className="v4-kicker" dir="ltr">
-            <span>RS / 01</span>
+      <div className="frame v5-hero-layout">
+        <div className="v5-hero-copy">
+          <div className="v5-kicker" dir="ltr">
+            <span>ROCKSTACK / DIGITAL SYSTEMS</span>
             <i aria-hidden="true" />
-            <span>WEB · APPS · AUTOMATION · AI</span>
+            <span>EST. 2026</span>
           </div>
 
-          <h1 id="hero-title" className="v4-title mt-7">
+          <h1 id="hero-title" className="v5-title">
             <span>{hero.lines[0]}</span>
             <span>{hero.lines[1]}</span>
           </h1>
 
-          <p className="v4-lead mt-8 max-w-[45ch]">{hero.lead}</p>
+          <p className="v5-lead">{hero.lead}</p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <a href="#contact" className="v4-cta-primary">
-              {hero.cta}
-              <span aria-hidden="true">↖</span>
+          <div className="v5-actions">
+            <a href="#contact" className="v5-button v5-button-primary">
+              <span>{hero.cta}</span>
+              <b aria-hidden="true">↖</b>
             </a>
-            <a href="#lab" className="v4-cta-secondary">
-              {hero.secondary}
-              <span aria-hidden="true">↓</span>
+            <a href="#lab" className="v5-button v5-button-quiet">
+              <span>{hero.secondary}</span>
+              <b aria-hidden="true">↓</b>
             </a>
           </div>
 
-          <ul className="v4-proof mt-14">
+          <ul className="v5-proof">
             {hero.proof.map((item) => (
               <li key={item.code}>
                 <b dir="ltr">{item.code}</b>
@@ -48,59 +62,60 @@ export function Hero({ dict }: { dict: Dictionary }) {
           </ul>
         </div>
 
-        <div className="lg:col-span-6 lg:col-start-7">
-          <StackBlueprint />
-        </div>
+        <SystemSlice />
+      </div>
+
+      <div className="frame v5-hero-index" dir="ltr" aria-hidden="true">
+        <span>SCROLL TO EXPLORE</span>
+        <i />
+        <span>01 — 09</span>
       </div>
     </section>
   );
 }
 
-function StackBlueprint() {
-  const layers = [
-    { id: "01", tag: "INTERFACE", title: "אתרים ואפליקציות", copy: "ממשק מהיר, ברור ונגיש." },
-    { id: "02", tag: "WORKFLOW", title: "מערכות ואוטומציות", copy: "תהליך עסקי שעובד מקצה לקצה." },
-    { id: "03", tag: "INTELLIGENCE", title: "סוכנים ו-AI", copy: "ידע, כלים והרשאות תחת שליטה." },
-    { id: "04", tag: "DATA", title: "API ומסדי נתונים", copy: "מקור אמת אחד לכל המערכת." },
-    { id: "05", tag: "FOUNDATION", title: "ענן, אבטחה ותפעול", copy: "תשתית שמוכנה לפרודקשן." },
-  ];
-
+function SystemSlice() {
   return (
-    <div className="v4-blueprint" aria-label="חמש שכבות המערכת ש-RockStack מתכננת ומפתחת">
-      <div className="v4-blueprint-head" dir="ltr">
-        <span>SYSTEM BLUEPRINT</span>
-        <span>ROCKSTACK / 2026</span>
-      </div>
-
-      <div className="v4-blueprint-body">
-        <div className="v4-blueprint-mark" dir="ltr" aria-hidden="true">
-          <strong>RS</strong>
-          <span>ONE STACK<br />ONE TEAM</span>
+    <div className="v5-slice-wrap">
+      <div
+        className="v5-slice-poster"
+        tabIndex={0}
+        role="img"
+        aria-label="פוסטר אינטראקטיבי שמציג את שכבות המערכת של RockStack; במעבר או במיקוד נחשפת שכבת הקוד"
+      >
+        <div className="v5-terminal" dir="ltr" aria-hidden="true">
+          <div className="v5-terminal-head">
+            <span><i /><i /><i /></span>
+            <b>rockstack.system.ts</b>
+            <em>PRODUCTION READY</em>
+          </div>
+          <div className="v5-terminal-body">
+            <p><span>const</span> system = <b>await</b> RockStack.build&#40;&#123;</p>
+            {terminalRows.map(([index, key, value]) => (
+              <p key={key} className="v5-code-row">
+                <small>{index}</small>
+                <strong>{key}:</strong>
+                <em>&quot;{value}&quot;,</em>
+              </p>
+            ))}
+            <p>&#125;&#41;;</p>
+            <p className="v5-code-status"><span>●</span> deploy.status = &quot;ready&quot;;</p>
+          </div>
         </div>
 
-        <ol className="v4-blueprint-layers">
-          {layers.map((layer) => (
-            <li key={layer.id}>
-              <span className="v4-layer-index" dir="ltr">{layer.id}</span>
-              <div>
-                <small dir="ltr">{layer.tag}</small>
-                <h2>{layer.title}</h2>
-                <p>{layer.copy}</p>
-              </div>
-              <i aria-hidden="true" />
-            </li>
+        <div className="v5-slices" aria-hidden="true">
+          {slices.map((slice, index) => (
+            <span key={index} className={`v5-slice v5-slice-${slice.tone}`}>
+              <b>{slice.word}</b>
+              <small>{String(index + 1).padStart(2, "0")}</small>
+            </span>
           ))}
-        </ol>
-      </div>
+        </div>
 
-      <div className="v4-blueprint-foot" dir="ltr">
-        <span>DISCOVER</span>
-        <i />
-        <span>DESIGN</span>
-        <i />
-        <span>BUILD</span>
-        <i />
-        <span>OPERATE</span>
+        <div className="v5-slice-caption" dir="ltr" aria-hidden="true">
+          <span>MOVE / FOCUS TO REVEAL THE SYSTEM</span>
+          <span>WEB · AI · DATA · OPS</span>
+        </div>
       </div>
     </div>
   );
