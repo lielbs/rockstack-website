@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Rubik, Space_Grotesk } from "next/font/google";
+import { Heebo, Space_Grotesk } from "next/font/google";
 import { getDictionary } from "@/content";
 import { site } from "@/content/site";
 import { defaultLocale, localeMeta } from "@/i18n/config";
 import "./globals.css";
 
-const rubik = Rubik({
+const heebo = Heebo({
   variable: "--font-heebo",
   subsets: ["hebrew", "latin"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -55,7 +56,7 @@ const jsFlag = "document.documentElement.classList.add('js')";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang={meta.lang} dir={meta.dir} className={`${rubik.variable} ${spaceGrotesk.variable}`}>
+    <html lang={meta.lang} dir={meta.dir} className={`${heebo.variable} ${spaceGrotesk.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
       </head>
