@@ -20,7 +20,7 @@ export function LabShowcase({ dict }: { dict: Dictionary }) {
       </div>
 
       <div className="v2-showcase mt-16 lg:mt-24">
-        <article data-reveal data-tilt data-spotlight className="v2-demo v2-demo-agent v3-reactive-surface">
+        <article data-reveal className="v2-demo v2-demo-agent">
           <DemoHead index="01" title="AI AGENT · INBOX" status="ACTIVE" />
           <div className="v2-agent-body">
             <div className="v2-agent-sidebar">
@@ -48,7 +48,7 @@ export function LabShowcase({ dict }: { dict: Dictionary }) {
           </div>
         </article>
 
-        <article data-reveal style={{ "--i": 1 } as CSSProperties} data-tilt data-spotlight className="v2-demo v2-demo-web v3-reactive-surface">
+        <article data-reveal style={{ "--i": 1 } as CSSProperties} className="v2-demo v2-demo-web">
           <DemoHead index="02" title="WEBSITE · LEAD FLOW" status="LIVE" />
           <div className="v2-site">
             <div className="v2-site-bar" dir="ltr" aria-hidden="true">
@@ -81,7 +81,7 @@ export function LabShowcase({ dict }: { dict: Dictionary }) {
           </div>
         </article>
 
-        <article data-reveal style={{ "--i": 2 } as CSSProperties} data-tilt data-spotlight className="v2-demo v2-demo-ops v3-reactive-surface">
+        <article data-reveal style={{ "--i": 2 } as CSSProperties} className="v2-demo v2-demo-ops">
           <DemoHead index="03" title="OPERATIONS DASHBOARD" status="SYNCED" />
           <div className="v2-ops-grid" dir="ltr">
             <div className="v2-kpi"><small>OPEN LEADS</small><b>18</b><em>+4 this week</em></div>
