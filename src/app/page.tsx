@@ -16,7 +16,6 @@ import { Contact } from "@/components/sections/Contact";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { Marquee } from "@/components/sections/Marquee";
 import { LabShowcase } from "@/components/sections/LabShowcase";
-import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { FlowRail } from "@/components/layout/FlowMark";
 
 export default function Home() {
@@ -43,7 +42,6 @@ export default function Home() {
       </main>
       <Footer dict={dict} />
       <RevealRoot />
-      <SmoothScroll />
       <OrganizationJsonLd dict={dict} />
     </>
   );

@@ -6,7 +6,6 @@ import { useEffect } from "react";
  * Page-wide interaction layer:
  * - reveals content and section stages as they enter the viewport
  * - fills the page-long flow rail with scroll progress
- * - drives pointer spotlights on interactive panels
  * - adds tactile press feedback and a short route-transition pulse
  */
 export function RevealRoot() {
@@ -95,61 +94,6 @@ export function RevealRoot() {
       window.addEventListener("resize", onRailScroll, { passive: true });
     }
 
-    let pointerFrame = 0;
-    let latestPointer: PointerEvent | null = null;
-    let activeTilt: HTMLElement | null = null;
-
-    const resetTilt = (element: HTMLElement | null) => {
-      if (!element) return;
-      element.classList.remove("is-engaged");
-      element.style.setProperty("--tilt-x", "0deg");
-      element.style.setProperty("--tilt-y", "0deg");
-      element.style.setProperty("--tilt-lift", "0px");
-    };
-
-    const paintPointer = () => {
-      pointerFrame = 0;
-      const event = latestPointer;
-      if (!event) return;
-
-      document.documentElement.style.setProperty("--cursor-x", `${event.clientX}px`);
-      document.documentElement.style.setProperty("--cursor-y", `${event.clientY}px`);
-
-      const target = event.target as Element | null;
-      const panel = target?.closest<HTMLElement>("[data-spotlight]");
-      if (panel) {
-        const rect = panel.getBoundingClientRect();
-        panel.style.setProperty("--mx", `${event.clientX - rect.left}px`);
-        panel.style.setProperty("--my", `${event.clientY - rect.top}px`);
-      }
-
-      const tilt = target?.closest<HTMLElement>("[data-tilt]") ?? null;
-      if (tilt !== activeTilt) {
-        resetTilt(activeTilt);
-        activeTilt = tilt;
-      }
-      if (!tilt) return;
-
-      const rect = tilt.getBoundingClientRect();
-      const horizontal = Math.max(-1, Math.min(1, (event.clientX - rect.left) / rect.width * 2 - 1));
-      const vertical = Math.max(-1, Math.min(1, (event.clientY - rect.top) / rect.height * 2 - 1));
-      tilt.classList.add("is-engaged");
-      tilt.style.setProperty("--tilt-x", `${(-vertical * 2.8).toFixed(2)}deg`);
-      tilt.style.setProperty("--tilt-y", `${(horizontal * 3.6).toFixed(2)}deg`);
-      tilt.style.setProperty("--tilt-lift", "-5px");
-    };
-
-    const onMove = (event: PointerEvent) => {
-      latestPointer = event;
-      if (!pointerFrame) pointerFrame = window.requestAnimationFrame(paintPointer);
-    };
-
-    const onPointerLeave = () => {
-      latestPointer = null;
-      resetTilt(activeTilt);
-      activeTilt = null;
-    };
-
     const clearPressed = () => {
       document.querySelectorAll(".interaction-pressed").forEach((element) => {
         element.classList.remove("interaction-pressed");
@@ -174,11 +118,6 @@ export function RevealRoot() {
       routeTimer = window.setTimeout(() => document.documentElement.classList.remove("is-routing"), 760);
     };
 
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
-    if (finePointer) {
-      document.addEventListener("pointermove", onMove, { passive: true });
-      document.addEventListener("pointerleave", onPointerLeave, { passive: true });
-    }
     document.addEventListener("pointerdown", onDown, { passive: true });
     document.addEventListener("pointerup", clearPressed, { passive: true });
     document.addEventListener("pointercancel", clearPressed, { passive: true });
@@ -190,13 +129,10 @@ export function RevealRoot() {
       window.clearTimeout(routeTimer);
       window.cancelAnimationFrame(passFrame);
       window.cancelAnimationFrame(railFrame);
-      window.cancelAnimationFrame(pointerFrame);
       window.removeEventListener("scroll", onRailScroll);
       window.removeEventListener("resize", onRailScroll);
       window.removeEventListener("scroll", onScrollPass);
       document.documentElement.classList.remove("is-routing");
-      document.removeEventListener("pointermove", onMove);
-      document.removeEventListener("pointerleave", onPointerLeave);
       document.removeEventListener("pointerdown", onDown);
       document.removeEventListener("pointerup", clearPressed);
       document.removeEventListener("pointercancel", clearPressed);
@@ -204,5 +140,5 @@ export function RevealRoot() {
     };
   }, []);
 
-  return <div className="v3-pointer-aura" aria-hidden="true" />;
+  return null;
 }
