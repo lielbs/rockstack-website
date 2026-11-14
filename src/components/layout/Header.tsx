@@ -81,8 +81,8 @@ export function Header({ dict }: { dict: Dictionary }) {
         >
           <Logo
             tone="dark"
-            markClassName={`transition-[width,height] duration-300 ${compact ? "size-8" : "size-9 md:size-10"}`}
-            textClassName={`transition-[font-size] duration-300 ${compact ? "text-[1.35rem]" : "text-[1.45rem] md:text-[1.65rem]"}`}
+            markClassName={compact ? "size-8" : "size-9 md:size-10"}
+            textClassName={compact ? "text-[1.35rem]" : "text-[1.45rem] md:text-[1.65rem]"}
           />
         </a>
 

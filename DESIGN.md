@@ -36,13 +36,14 @@ Amber is used for commercial emphasis, active states and system markers. It is n
 The hero is a two-column editorial composition:
 
 1. Clear positioning, short lead, two actions and four capability markers.
-2. A flat system blueprint showing the five layers RockStack owns.
+2. The layer stack: the logo's three slabs as a 3D object, one per layer of a system (apps & AI, systems & data, infrastructure & security). Pointing at, focusing or tapping a layer lifts it and lists what it holds in a card below; the stack opens up as the hero scrolls away.
 
-The blueprint uses HTML and CSS only. It has no canvas, WebGL, particle field, pointer tracking or continuous animation.
+The stack is HTML and CSS 3D transforms only, so every frame is composited. It has no canvas, WebGL, particle field, pointer tracking or continuous animation: it lands once on load, lifts on selection and opens with a scroll-driven animation (`animation-timeline: scroll()`), which browsers without support simply skip.
 
 ## Interaction
 
 - Short entrance transition on initial load only.
+- Hero stack: 3D transforms on selection and scroll only; no cursor-following tilt, no idle float.
 - Simple color and spacing response on hover.
 - Native scrolling.
 - No custom cursor.
@@ -58,6 +59,7 @@ The blueprint uses HTML and CSS only. It has no canvas, WebGL, particle field, p
 - Avoid smooth-scroll libraries that run a permanent animation frame.
 - Prefer static CSS grids, SVG and semantic HTML.
 - Keep all decorative animation composited, bounded and finite.
+- Loops that remain (marquee, status ping) animate transform/opacity only and pause while their section is off screen (`.is-offscreen`, set by RevealRoot).
 
 ## Accessibility
 

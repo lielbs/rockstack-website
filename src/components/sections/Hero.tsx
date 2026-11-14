@@ -1,6 +1,7 @@
 import type { Dictionary } from "@/content";
+import { LayerStack } from "./LayerStack";
 
-/** Lightweight editorial opening: strong hierarchy, no WebGL, canvas or continuous animation. */
+/** Editorial opening: the offer in words, and the logo as a stack of the layers we build (CSS 3D, no canvas). */
 export function Hero({ dict }: { dict: Dictionary }) {
   const { hero } = dict;
 
@@ -49,59 +50,9 @@ export function Hero({ dict }: { dict: Dictionary }) {
         </div>
 
         <div className="lg:col-span-6 lg:col-start-7">
-          <StackBlueprint />
+          <LayerStack stack={hero.stack} />
         </div>
       </div>
     </section>
-  );
-}
-
-function StackBlueprint() {
-  const layers = [
-    { id: "01", tag: "INTERFACE", title: "אתרים ואפליקציות", copy: "ממשק מהיר, ברור ונגיש." },
-    { id: "02", tag: "WORKFLOW", title: "מערכות ואוטומציות", copy: "תהליך עסקי שעובד מקצה לקצה." },
-    { id: "03", tag: "INTELLIGENCE", title: "סוכנים ו-AI", copy: "ידע, כלים והרשאות תחת שליטה." },
-    { id: "04", tag: "DATA", title: "API ומסדי נתונים", copy: "מקור אמת אחד לכל המערכת." },
-    { id: "05", tag: "FOUNDATION", title: "ענן, אבטחה ותפעול", copy: "תשתית שמוכנה לפרודקשן." },
-  ];
-
-  return (
-    <div className="v4-blueprint" aria-label="חמש שכבות המערכת ש-RockStack מתכננת ומפתחת">
-      <div className="v4-blueprint-head" dir="ltr">
-        <span>SYSTEM BLUEPRINT</span>
-        <span>ROCKSTACK / 2026</span>
-      </div>
-
-      <div className="v4-blueprint-body">
-        <div className="v4-blueprint-mark" dir="ltr" aria-hidden="true">
-          <strong>RS</strong>
-          <span>ONE STACK<br />ONE TEAM</span>
-        </div>
-
-        <ol className="v4-blueprint-layers">
-          {layers.map((layer) => (
-            <li key={layer.id}>
-              <span className="v4-layer-index" dir="ltr">{layer.id}</span>
-              <div>
-                <small dir="ltr">{layer.tag}</small>
-                <h2>{layer.title}</h2>
-                <p>{layer.copy}</p>
-              </div>
-              <i aria-hidden="true" />
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      <div className="v4-blueprint-foot" dir="ltr">
-        <span>DISCOVER</span>
-        <i />
-        <span>DESIGN</span>
-        <i />
-        <span>BUILD</span>
-        <i />
-        <span>OPERATE</span>
-      </div>
-    </div>
   );
 }

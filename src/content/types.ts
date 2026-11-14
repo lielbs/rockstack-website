@@ -27,8 +27,12 @@ export type Dictionary = {
     lead: string;
     cta: string;
     secondary: string;
-    /** Names of the three hero slabs, base first. */
-    layers: [string, string, string];
+    /** The interactive stack beside the headline: the logo's three slabs as the layers of a system, top first. */
+    stack: {
+      label: string;
+      hint: string;
+      layers: { code: string; name: string; items: string[] }[];
+    };
     /** Short service index under the hero: a Latin code and a plain description. */
     proof: { code: string; text: string }[];
   };

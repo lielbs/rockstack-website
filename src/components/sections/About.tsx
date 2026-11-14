@@ -51,7 +51,6 @@ export function About({ dict }: { dict: Dictionary }) {
             <IsoStack
               slabs={i === 0 ? infraSlabs : devSlabs}
               gap={4}
-              sheen
               className="h-20 w-auto self-start"
               slabProps={(j) => ({ className: "mini-slab", style: { "--layer": j } as CSSProperties })}
             />
