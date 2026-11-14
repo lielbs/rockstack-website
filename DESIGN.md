@@ -38,23 +38,27 @@ The hero is a two-column editorial composition:
 1. Clear positioning, short lead, two actions and four capability markers.
 2. The layer stack: the logo's three slabs as a 3D object, one per layer of a system (apps & AI, systems & data, infrastructure & security). Pointing at, focusing or tapping a layer lifts it and lists what it holds in a card below; the stack opens up as the hero scrolls away.
 
-The stack is HTML and CSS 3D transforms only, so every frame is composited. It has no canvas, WebGL, particle field, pointer tracking or continuous animation: it lands once on load, lifts on selection and opens with a scroll-driven animation (`animation-timeline: scroll()`), which browsers without support simply skip.
+On capable devices the stack is a WebGL scene (three.js, `src/components/three/stackGL.ts`), loaded after the page has painted: the slabs are drawn as a blueprint, printed into solid material by a rising scan line, then turn toward the pointer under a light that follows it, over a field of dots that swells beneath the cursor. Scrolling opens the stack and data rises between the layers.
+
+The same stack in CSS 3D (`LayerStack`) is what shows before the scene is ready and the permanent fallback for reduced motion, Save-Data, fewer than 4 cores, under 4 GB memory or no WebGL2.
+
+Budget for the scene, measured with `.taste-skill/qa/perf-idle.mjs` after the intro: about 4–5% main-thread busy on a normal CPU, 20–33% at 4–6x CPU throttle. It holds that by: no shadow maps (texture contact shadow), every particle animated in a shader, pixel ratio capped at 1.75 and dropped to 1 on slow devices, half frame rate when nothing is moving, callouts written as transforms only when they move, and no rendering at all while the hero is off screen or the tab is hidden.
 
 ## Interaction
 
 - Short entrance transition on initial load only.
-- Hero stack: 3D transforms on selection and scroll only; no cursor-following tilt, no idle float.
+- Hero stack: the WebGL scene is the one place with pointer-driven motion; everything else on the page stays without it.
 - Simple color and spacing response on hover.
 - Native scrolling.
 - No custom cursor.
-- No pointer-driven 3D tilt.
+- No pointer-driven 3D tilt outside the hero stack.
 - No permanent RAF loops.
 - Reduced-motion users receive the same hierarchy without movement.
 
 ## Performance constraints
 
 - Avoid `backdrop-filter` on sticky, full-width or large surfaces.
-- Avoid canvas or WebGL above the fold unless a measured business case justifies it.
+- Avoid canvas or WebGL above the fold unless a measured business case justifies it. The hero stack is that case: it is the brand's one signature moment and stays inside the budget above.
 - Avoid global `pointermove` listeners.
 - Avoid smooth-scroll libraries that run a permanent animation frame.
 - Prefer static CSS grids, SVG and semantic HTML.
