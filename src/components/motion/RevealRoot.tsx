@@ -8,6 +8,7 @@ import { useEffect } from "react";
  * - fills the page-long flow rail with scroll progress
  * - drives pointer spotlights on interactive panels
  * - adds tactile press feedback and a short route-transition pulse
+ * - pauses the decorative loops of every section that is off screen
  */
 export function RevealRoot() {
   useEffect(() => {
@@ -15,6 +16,7 @@ export function RevealRoot() {
     const sections = document.querySelectorAll<HTMLElement>("main section");
     let revealObserver: IntersectionObserver | undefined;
     let sectionObserver: IntersectionObserver | undefined;
+    let playObserver: IntersectionObserver | undefined;
     let routeTimer = 0;
 
     sections.forEach((section, index) => {
@@ -48,6 +50,15 @@ export function RevealRoot() {
         { rootMargin: "0px 0px -12% 0px", threshold: 0.08 },
       );
       sections.forEach((section) => sectionObserver?.observe(section));
+
+      // Infinite animations keep costing style and paint work even when nobody can see them.
+      playObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => entry.target.classList.toggle("is-offscreen", !entry.isIntersecting));
+        },
+        { rootMargin: "0px" },
+      );
+      sections.forEach((section) => playObserver?.observe(section));
     } else {
       items.forEach((element) => element.classList.add("is-in"));
       sections.forEach((section) => section.classList.add("section-visible"));
@@ -55,10 +66,12 @@ export function RevealRoot() {
 
     // A fast jump (End key, in-page link, scrollbar drag) can carry elements past the viewport
     // between two observer checks, so they never "intersect". Reveal anything already scrolled past.
+    // Checked only after a jump or once scrolling settles: measuring every element per frame is costly.
     let pending = [...items, ...sections];
-    let passFrame = 0;
+    let passTimer = 0;
+    let lastY = window.scrollY;
     const revealPassed = () => {
-      passFrame = 0;
+      lastY = window.scrollY;
       const line = window.innerHeight;
       pending = pending.filter((element) => {
         if (element.getBoundingClientRect().top >= line) return true;
@@ -70,29 +83,50 @@ export function RevealRoot() {
       if (!pending.length) window.removeEventListener("scroll", onScrollPass);
     };
     const onScrollPass = () => {
-      if (!passFrame) passFrame = window.requestAnimationFrame(revealPassed);
+      window.clearTimeout(passTimer);
+      if (Math.abs(window.scrollY - lastY) > window.innerHeight) revealPassed();
+      else passTimer = window.setTimeout(revealPassed, 150);
     };
     window.addEventListener("scroll", onScrollPass, { passive: true });
 
-    // Flow rail: fill up to the middle of the viewport, with a light at the tip.
+    // Flow rail: fill up to the middle of the viewport, with a light at the tip. Geometry is
+    // measured on resize only; each scroll frame just writes two transforms (no layout reads).
     const rail = document.querySelector<HTMLElement>(".flow-rail");
+    const railFill = rail?.querySelector<HTMLElement>(".flow-rail-fill");
+    const railHead = rail?.querySelector<HTMLElement>(".flow-rail-head");
     let railFrame = 0;
-    const updateRail = () => {
-      railFrame = 0;
+    let railTop = 0;
+    let railHeight = 1;
+    let railMoving = false;
+    const measureRail = () => {
       if (!rail) return;
       const rect = rail.getBoundingClientRect();
-      const progress = Math.min(1, Math.max(0, (window.innerHeight * 0.5 - rect.top) / rect.height));
-      rail.style.setProperty("--flow", progress.toFixed(4));
-      rail.style.setProperty("--flow-y", `${(progress * rect.height).toFixed(1)}px`);
-      rail.style.setProperty("--flow-on", progress > 0 && progress < 1 ? "1" : "0");
+      railTop = rect.top + window.scrollY;
+      railHeight = Math.max(1, rect.height);
+    };
+    const updateRail = () => {
+      railFrame = 0;
+      if (!railFill || !railHead) return;
+      const progress = Math.min(1, Math.max(0, (window.scrollY + window.innerHeight * 0.5 - railTop) / railHeight));
+      railFill.style.transform = `scaleY(${progress.toFixed(4)})`;
+      railHead.style.transform = `translateY(${(progress * railHeight).toFixed(1)}px)`;
+      const moving = progress > 0 && progress < 1;
+      if (moving !== railMoving) {
+        railMoving = moving;
+        rail?.classList.toggle("is-moving", moving);
+      }
     };
     const onRailScroll = () => {
       if (!railFrame) railFrame = window.requestAnimationFrame(updateRail);
     };
+    // Content above the rail changes height as images and fonts load.
+    const railResize = new ResizeObserver(() => {
+      measureRail();
+      onRailScroll();
+    });
     if (rail) {
-      updateRail();
+      railResize.observe(document.body);
       window.addEventListener("scroll", onRailScroll, { passive: true });
-      window.addEventListener("resize", onRailScroll, { passive: true });
     }
 
     const onMove = (event: PointerEvent) => {
@@ -137,11 +171,12 @@ export function RevealRoot() {
     return () => {
       revealObserver?.disconnect();
       sectionObserver?.disconnect();
+      playObserver?.disconnect();
       window.clearTimeout(routeTimer);
-      window.cancelAnimationFrame(passFrame);
+      window.clearTimeout(passTimer);
       window.cancelAnimationFrame(railFrame);
+      railResize.disconnect();
       window.removeEventListener("scroll", onRailScroll);
-      window.removeEventListener("resize", onRailScroll);
       window.removeEventListener("scroll", onScrollPass);
       document.documentElement.classList.remove("is-routing");
       document.removeEventListener("pointermove", onMove);

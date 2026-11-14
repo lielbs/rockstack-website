@@ -146,7 +146,7 @@ export function ContactForm({ contact }: { contact: Dictionary["contact"] }) {
             <p className="mt-2 text-body text-stone">{builder.hint}</p>
             <div className="mt-6 flex flex-wrap gap-x-2 gap-y-3">
               {builder.needs.map((need) => (
-                <label key={need.id} className="cursor-pointer">
+                <label key={need.id} className="relative cursor-pointer">
                   <input
                     type="checkbox"
                     name="needs"
